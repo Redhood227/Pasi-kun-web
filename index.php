@@ -39,7 +39,7 @@
                 $i = 1;
                 
                 
-                if($r){
+                if(!$r){
                     header("location:addinfo.php");
                 }else{
                     header("location:edit_form.php");
