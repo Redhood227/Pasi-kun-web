@@ -5,6 +5,13 @@
 <html>
     <head>
         <title>user info</title>
+        <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+        <input type = "hidden" name="user_id" >
+        <script>
+            await liff.init({ liffId: "1656562991-6qEqpDY4" })
+            const profile = await liff.getProfile()
+            user_id.innerHTML = profile.userId
+        </script>
     </head>
     <body>
         
@@ -17,27 +24,25 @@
             </tr>
             
             <?php
+
+                
                 
                 $sql = "SELECT * FROM info";
-                
+                $s = "SELECT CASE WHEN EXISTS 
+                (
+                      SELECT user_id FROM info WHERE user_id
+                )
+                THEN 'TRUE'
+                ELSE 'FALSE'";
                 $result = mysqli_query($conn, $sql);
+                $r = mysqli_query($conn, $s);
                 $i = 1;
                 
-                if(mysqli_num_rows($result) > 0){
-                    while($row = mysqli_fetch_assoc($result)){
-                    echo "<tr>";
-                    echo"<td>".$i."</td>";
-                    echo"<td style='text-align:right;'>". number_format($row['salary'])."</td>";
-                    echo"<td style='text-align:right;'>". number_format($row['bonus'])."</td>";
-                    echo"<td style='text-align:right;'>". number_format($row['income'])."</td>";
-                    echo"<td><a href='edit_form.php?id=".$row['id']." '>แก้ไข</a></td>";
-                    echo"<td><a href='data.php?delete_id=".$row['id']."  'onclick='return confirm(\"คุณต้องการลบข้อมูลหรือไม่\")'>ลบ</a></td>";
-                    echo "<tr>";
-                    
-                    $i++;
-                    }
+                
+                if($r){
+                    header("location:addinfo.php");
                 }else{
-                    echo "EMPTY DATA";
+                    header("location:edit_form.php");
                 }
                 
                 ?>
