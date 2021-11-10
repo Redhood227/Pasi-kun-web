@@ -17,7 +17,7 @@ $conn = mysqli_connect($cleardb_server, $cleardb_username, $cleardb_password, $c
     if(!$conn){
         die("ไม่สามารถเชื่อมต่อฐานข้อมูลได้".mysqli_connect_error());
     }else{
-        echo "เชื่อมต่อข้อมูลสำเร็จ";
+        
     }
 
 
