@@ -7,6 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pasi-kun :Collect information</title>
     <link rel="stylesheet" href="main.css">
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <input type = "hidden" name="user_id" >
+        <script>
+            await liff.init({ liffId: "1656562991-6qEqpDY4" })
+            const profile = await liff.getProfile()
+            user_id.innerHTML = profile.userId
+        </script>
 </head>
 
 

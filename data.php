@@ -2,7 +2,7 @@
     require("connect.php");
     
     if(isset($_POST['salary'])){
-        ///$user_id = $_POST['user_id'];
+        $user_id = $_POST['user_id'];
         $salary = $_POST['salary'];
         $bonus = $_POST['bonus'];
         $income= $_POST['income'];
@@ -24,7 +24,7 @@
         $pFund = $_POST['pFund'];
         
         $sql = "INSERT INTO info (id,user_id,salary,bonus,income,mStatus,nChild,nParent,rmf,nsf,ssf,ssfx,insurance,Ainsurance,donation,eduDonation,floDonation,plubDonation,hLoan,socSecur,pFund)
-                VALUES(null,'id','$salary','$bonus','$income','$mStatus','$nChild','$nParent','$rmf','$nsf','$ssf','$ssfx','$insurance','$Ainsurance','$donation','$eduDonation','$floDonation','$plubDonation','$hLoan','$socSecur','$pFund')";
+                VALUES(null,'$user_id','$salary','$bonus','$income','$mStatus','$nChild','$nParent','$rmf','$nsf','$ssf','$ssfx','$insurance','$Ainsurance','$donation','$eduDonation','$floDonation','$plubDonation','$hLoan','$socSecur','$pFund')";
         
         if(mysqli_query($conn, $sql)) {
             echo "<br>บันทึกข้อมูลเสร็จสิ้น";
