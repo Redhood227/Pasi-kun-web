@@ -13,6 +13,7 @@
   <p id="displayName"></p>
   <p id="statusMessage"></p>
   <p id="getDecodedIDToken"></p>
+  <p>Hello</p>
   <script src="https://static.line-scdn.net/liff/edge/versions/2.3.0/sdk.js"></script>
   <script>
     function runApp() {
