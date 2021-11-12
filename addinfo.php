@@ -8,11 +8,11 @@
     <title>Pasi-kun :Collect information</title>
     <link rel="stylesheet" href="main.css">
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
-    <input type = "hidden" name="user_id" >
         <script>
             await liff.init({ liffId: "1656562991-6qEqpDY4" })
             const profile = await liff.getProfile()
             user_id.innerHTML = profile.userId
+            document.getElementById("user_id").value = profile.userId;
         </script>
 </head>
 
@@ -166,6 +166,7 @@
                             </div>
                         </section>
                     </div>
+                    <input type = "hidden" name="user_id" >
                     <section class="btn">
                         <div class="nav-btn">
                             <input type="submit" value="บันทึกข้อมูล">

@@ -6,11 +6,18 @@
     <head>
         <title>user info</title>
         <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
-        <input type = "hidden" name="user_id" >
+        <form method="POST">
+
+enter your text :<input type="text" name="input_value"><br>
+
+<input type="submit" value="submit">
+
+</form>
+        <input type = "hidden" name="User_id" >
         <script>
             await liff.init({ liffId: "1656562991-6qEqpDY4" })
             const profile = await liff.getProfile()
-            user_id.innerHTML = profile.userId
+            User_id.innerHTML = profile.userId
         </script>
     </head>
     <body>
