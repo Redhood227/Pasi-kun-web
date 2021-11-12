@@ -1,37 +1,50 @@
+<?php
+    require("connect.php");
+?>
+<!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My LIFF v2</title>
-  <style>
-    #pictureUrl { display: block; margin: 0 auto }
-  </style>
-</head>
-<body>
-  <img id="pictureUrl" width="25%">
-  <p id="userId"></p>
-  <p id="displayName"></p>
-  <p id="statusMessage"></p>
-  <p id="getDecodedIDToken"></p>
-  <p>Hello</p>
-  <script src="https://static.line-scdn.net/liff/edge/versions/2.3.0/sdk.js"></script>
-  <script>
-    function runApp() {
-      liff.getProfile().then(profile => {
-        document.getElementById("pictureUrl").src = profile.pictureUrl;
-        document.getElementById("userId").innerHTML = '<b>UserId:</b> ' + profile.userId;
-        document.getElementById("displayName").innerHTML = '<b>DisplayName:</b> ' + profile.displayName;
-        document.getElementById("statusMessage").innerHTML = '<b>StatusMessage:</b> ' + profile.statusMessage;
-        document.getElementById("getDecodedIDToken").innerHTML = '<b>Email:</b> ' + liff.getDecodedIDToken().email;
-      }).catch(err => console.error(err));
-    }
-    await liff.init({ liffId: "1656562991-6qEqpDY4" }, () => {
-      if (liff.isLoggedIn()) {
-        runApp()
-      } else {
-        liff.login();
-      }
-    }, err => console.error(err.code, error.message));
-  </script>
-</body>
+    <head>
+        <title>user info</title>
+        <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+        <script>
+            liff.init({ liffId: "1656562991-6qEqpDY4" }, () => {
+                if (liff.isLoggedIn()) {
+                    liff.getProfile().then(profile => {
+                        const userProfile = profile.userId;
+                    }).catch(
+                         err => console.error(err)
+                    );
+                } else {
+                    liff.login();
+                }
+        }, err => console.error(err.code, error.message));
+        </script>
+    </head>
+    <body>
+            
+            <?php
+
+                
+                
+                $sql = "SELECT * FROM info";
+                $s = "SELECT CASE WHEN EXISTS 
+                (
+                      SELECT user_id FROM info WHERE user_id
+                )
+                THEN 'TRUE'
+                ELSE 'FALSE'";
+                $r = mysqli_query($conn, $s);
+                
+                if(!$r){
+                    header("location:addinfo.php");
+                }else{
+                    header("location:edit_form.php");
+                }
+                
+                ?>
+            
+        </table>
+        
+    </body>
 </html>
+
