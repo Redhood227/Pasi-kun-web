@@ -12,7 +12,7 @@
             await liff.init({ liffId: "1656562991-6qEqpDY4" })
             const profile = await liff.getProfile()
             user_id.innerHTML = profile.userId
-            document.getElementById("user_id").value = profile.userId;
+            document.getElementById("user_id").innerHTML = profile.userId;
         </script>
 </head>
 
