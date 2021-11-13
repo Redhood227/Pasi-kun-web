@@ -17,7 +17,7 @@
                     liff.getProfile().then(function (profile) {
                         document.getElementById('user_id').innerHTML = profile.userId;
                         document.getElementById('displayName').innerHTML = profile.displayName;
-                        window.alert(profile.userId);
+                        window.alert("Hello");
             }).catch(function (error) {
                             
                             window.alert('Error getting profile: ' + error);
