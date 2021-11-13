@@ -32,7 +32,7 @@
             liff.init({ liffId: "1656562991-6qEqpDY4" }, () => {
                 if (liff.isLoggedIn()) {
                     liff.getProfile().then(profile => {
-                        document.getElementById('token').value =  profile.userID;
+                        document.getElementById('token').value = profile.userId;
                     }).catch(
                          err => console.error(err)
                     );
