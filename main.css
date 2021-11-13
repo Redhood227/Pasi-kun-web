@@ -10,11 +10,11 @@
 body{
     background-color: #6A959B;
     width: auto;
-    height: 800px;
+    height: auto;
 }
 
 .container {
-    max-width: 1300px;
+    max-width: auto;
     margin: 0 auto;
 }
 
@@ -28,6 +28,8 @@ body{
     text-align: center;
 }
 .logo{
+    margin-left: center;
+    margin-right: center;
     margin-top: 20px;
     color: #2A253B;
     font-size: 55px;
@@ -35,6 +37,8 @@ body{
 }
 
 .write{
+    margin-left: center;
+    margin-right: center;
     text-align: center;
     color: #FFFFFF;
     font-size: 20px;
@@ -52,10 +56,12 @@ body{
     justify-content: center;
     box-shadow: 2px 2px #000000;
     margin-top: 20px;
-    margin-bottom: 320px;
-    margin-left: 1100px;
-    margin-right: 100;
-    cursor: pointer;
+    /* margin-bottom: 320px; */
+    margin-left: 43%;
+    /* margin-right: 50%; */
+    /* left: 50%;
+    right: 50%; */
+    /* margin-right: center; */
     /* margin-left: 570px; */
 }
 .nav-btn a{
@@ -67,9 +73,10 @@ body{
 
 .col-container {
     display: table; /* Make the container element behave like a table */
-    width: 1000px; /* Set full-width to expand the whole page */
-    height: 500px;
-    margin-left: 150px;
+    width: 560px; /* Set full-width to expand the whole page */
+    height: 770px;
+    margin-left: auto;
+    margin-right: auto;
     margin-top: 10px;
     background-color: #FFFFFF;
     border-radius: 15px;
@@ -191,7 +198,7 @@ body{
 }
 
 label{
-    width: 160px;
+    width: 220px;
     display: inline-block;
 }
 
