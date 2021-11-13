@@ -32,7 +32,7 @@
             liff.init({ liffId: "1656562991-6qEqpDY4" }, () => {
                 if (liff.isLoggedIn()) {
                     liff.getProfile().then(profile => {
-                        document.getElementById('token').value = profile.userId;
+                        document.getElementById('user_id').value = profile.userId;
                     }).catch(
                          err => console.error(err)
                     );
@@ -195,7 +195,7 @@
                             </div>
                         </section>
                     </div>
-                    <input id="token" name="token" >
+                    <input id="user_id" name="user_id" >
                     <input type = "hidden" name="edit_form_id" value="<?php echo $result['id']?>">
                     <section class="btn">
                         <div class="nav-btn">
