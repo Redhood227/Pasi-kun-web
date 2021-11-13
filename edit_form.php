@@ -3,8 +3,8 @@
     
     if(isset($_GET['id'])){
         
-        $user_id = $_GET['user_id'];
-        $sql = "SELECT * FROM info WHERE user_id = $user_id";
+        //$user_id = $_GET['user_id'];
+        $sql = "SELECT * FROM info WHERE user_id = 123";
         $row = mysqli_query($conn, $sql);
         $result = mysqli_fetch_assoc($row);
         
