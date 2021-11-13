@@ -15,8 +15,8 @@
             }).then(() => {
                 liff.ready.then(async () => {
                     liff.getProfile().then(function (profile) {
-                        document.getElementById('user_id').value = profile.userId;
-                        document.getElementById('displayName').value = profile.displayName;
+                        document.getElementById('user_id').innerHTML = profile.userId;
+                        document.getElementById('displayName').innerHTML = profile.displayName;
             }).catch(function (error) {
                             
                             window.alert('Error getting profile: ' + error);
@@ -24,8 +24,8 @@
                     });
         </script>
 
-                <p id="user_id"></p>
-                <p id="displayName"></p>
+                <p id="user_id"><span id="user_id"></span></p>
+                <p id="displayName"><span id="displayName"></span></p>
             
             <?php
 
