@@ -25,11 +25,28 @@
                     liff.login();
                 }
         }, err => console.error(err.code, error.message));
+        $(document).ready(function () {
+        createCookie("ีuser_id", profile.userId, "10");
+});
+
+function createCookie(name, value, days) {
+  var expires;
+  if (days) {
+    var date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    expires = "; expires=" + date.toGMTString();
+  }
+  else {
+    expires = "";
+  }
+  document.cookie = escape(name) + "=" + escape(value) + expires + "; path=/";
+}
         </script>
+        
             
             <?php
 
-                $user_id = $_SESSION['user_id'];
+                $user_id = $_COOKIE['user_id'];
                 $sql = "SELECT * FROM info";
                 $s = "SELECT * FROM info WHERE user_id='".$user_id."'";
                 $r = mysqli_query($conn, $s);
