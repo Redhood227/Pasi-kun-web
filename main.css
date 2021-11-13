@@ -26,6 +26,9 @@ body{
 
 .logo{
     text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .logo{
     margin-left: 200px;
@@ -37,6 +40,9 @@ body{
 }
 
 .write{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     margin-left: 200px;
 /*     margin-right: 37%; */
     text-align: center;
