@@ -40,7 +40,7 @@
                     header("location:edit_form.php");
                 }*/
 
-                if(mysqli_num_rows($result)==1){
+                if(mysqli_num_rows($r)==1){
                     header("location:edit_form.php");
                 }
                 else{
@@ -49,7 +49,6 @@
                 
                 ?>
             
-        </table>
         
     </body>
 </html>
