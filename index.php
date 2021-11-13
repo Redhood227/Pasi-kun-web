@@ -31,18 +31,20 @@
 
                 $user_id = $_SESSION['user_id'];
                 $sql = "SELECT * FROM info";
-                $s = "SELECT CASE WHEN EXISTS 
-                (
-                      SELECT user_id FROM info WHERE '".$user_id."';
-                )
-                THEN 'TRUE'
-                ELSE 'FALSE'";
+                $s = "SELECT * FROM info WHERE '".$user_id."'";
                 $r = mysqli_query($conn, $s);
                 
-                if(!$r){
+                /*if(!$r){
                     header("location:addinfo.php");
                 }else{
                     header("location:edit_form.php");
+                }*/
+
+                if(mysqli_num_rows($result)==1){
+                    header("location:edit_form.php");
+                }
+                else{
+                    header("location:addinfo.php");
                 }
                 
                 ?>
