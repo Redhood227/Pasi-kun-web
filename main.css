@@ -73,7 +73,7 @@ body{
 
 .col-container {
     display: table; /* Make the container element behave like a table */
-    width: 470px; /* Set full-width to expand the whole page */
+    width: 450px; /* Set full-width to expand the whole page */
     height: 770px;
     margin-left: auto;
     margin-right: auto;
