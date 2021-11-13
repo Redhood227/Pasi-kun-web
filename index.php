@@ -143,7 +143,7 @@
                 <div id="form_username" name="form_username" class="login-form">
                     <div class="form-group form-floating-label">
                         <input id="Username" name="Username" type="text" autocomplete="text" class="form-control input-border-bottom" required>
-                        <label for="Username" class="placeholder" require value="userId">Username</label>
+                        <label for="Username" class="placeholder" >Username</label>
                     </div>
                     <div class="form-group form-floating-label">
                         <input id="Password" name="Password" type="password" autocomplete="password" class="form-control input-border-bottom" required>
