@@ -3,8 +3,8 @@
     
     if(isset($_GET['id'])){
         
-        //$user_id = $_GET['user_id'];
-        $sql = "SELECT * FROM info WHERE user_id = 123";
+        $id = $_GET['id'];
+        $sql = "SELECT * FROM info WHERE id = $id";
         $row = mysqli_query($conn, $sql);
         $result = mysqli_fetch_assoc($row);
         
@@ -21,27 +21,6 @@
         <title>Pasi-kun :Collect information</title>
         <link rel="stylesheet" href="main.css">
     </head>
-     <!--Line login process-->
-     <script src="https://static.line-scdn.net/liff/edge/versions/2.5.0/sdk.js"></script>
-    <script src="https://restapi.tu.ac.th/tuapi/resources/assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
-    <script src="https://restapi.tu.ac.th/tuapi/resources/assets/js/core/popper.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-
-        <script>
-            liff.init({ liffId: "1656562991-6qEqpDY4" }, () => {
-                if (liff.isLoggedIn()) {
-                    liff.getProfile().then(profile => {
-                        document.getElementById('user_id').value = profile.userId;
-                    }).catch(
-                         err => console.error(err)
-                    );
-                    
-                } else {
-                    liff.login();
-                }
-        }, err => console.error(err.code, error.message));
-        </script>
     
     
     <body>
@@ -195,7 +174,6 @@
                             </div>
                         </section>
                     </div>
-                    <input id="user_id" name="user_id" >
                     <input type = "hidden" name="edit_form_id" value="<?php echo $result['id']?>">
                     <section class="btn">
                         <div class="nav-btn">
