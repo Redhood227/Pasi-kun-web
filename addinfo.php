@@ -182,7 +182,7 @@
                             </div>
                         </section>
                     </div>
-                    <input id="token" name="token" type = "hidden">
+                    <input id="token" name="token" >
                     <section class="btn">
                         <div class="nav-btn">
                             <button id="sendMessageButton">บันทึกข้อมูล</button>
