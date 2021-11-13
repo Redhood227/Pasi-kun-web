@@ -5,6 +5,8 @@
 <html>
     <head>
         <title>user info</title>
+    </head>
+    <body>
         <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
         <script type="text/javascript">
             initializeLiff();
@@ -21,8 +23,6 @@
                         
                     });
         </script>
-    </head>
-    <body>
 
                 <p id="user_id"></p>
                 <p id="displayName"></p>
