@@ -33,7 +33,7 @@
                 $sql = "SELECT * FROM info";
                 $s = "SELECT CASE WHEN EXISTS 
                 (
-                      SELECT user_id FROM info WHERE $user_id
+                      SELECT user_id FROM info WHERE '".$user_id."';
                 )
                 THEN 'TRUE'
                 ELSE 'FALSE'";
