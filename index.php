@@ -13,16 +13,12 @@
             liff.init({
                 liffId: "1656562991-6qEqpDY4"
             }).then(() => {
-                liff.ready.then(async () => {
-                    liff.getProfile().then(function (profile) {
+                        liff.getProfile()
                         document.getElementById('user_id').innerHTML = profile.userId;
                         document.getElementById('displayName').innerHTML = profile.displayName;
-                        window.alert("Hello");
-            }).catch(function (error) {
-                            
-                            window.alert('Error getting profile: ' + error);
-                        
-                    });
+                        document.write(profile.userId);
+            });
+        
         </script>
 
                 <p id="user_id"><span id="user_id"></span></p>
@@ -53,4 +49,3 @@
         
     </body>
 </html>
-
