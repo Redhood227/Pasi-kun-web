@@ -7,17 +7,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pasi-kun :Collect information</title>
     <link rel="stylesheet" href="main.css">
-    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
-        <script>
-            await liff.init({ liffId: "1656562991-6qEqpDY4" })
-            const profile = await liff.getProfile()
-            user_id.innerHTML = profile.userId
-            document.getElementById("user_id").innerHTML = profile.userId;
-        </script>
+    
 </head>
 
 
 <body>
+    <!--Line login process-->
+    <script src="https://static.line-scdn.net/liff/edge/versions/2.5.0/sdk.js"></script>
+    <script src="https://restapi.tu.ac.th/tuapi/resources/assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+    <script src="https://restapi.tu.ac.th/tuapi/resources/assets/js/core/popper.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+        <script>
+            liff.init({ liffId: "1656562991-6qEqpDY4" }, () => {
+                if (liff.isLoggedIn()) {
+                    liff.getProfile().then(profile => {
+                        document.getElementById('user_id').value = profile.userId;
+                    }).catch(
+                         err => console.error(err)
+                    );
+                } else {
+                    liff.login();
+                }
+        }, err => console.error(err.code, error.message));
+        </script>
+        <!--แบบฟอร์มกรอกข้อมูล-->
     <header>
         <div class="container">
             <nav>
@@ -169,7 +184,7 @@
                     <input type = "hidden" name="user_id" >
                     <section class="btn">
                         <div class="nav-btn">
-                            <input type="submit" value="บันทึกข้อมูล">
+                            <button id="sendMessageButton">บันทึกข้อมูล</button>
                         </div>
                     </section>
         </div>
