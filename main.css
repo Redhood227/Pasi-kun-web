@@ -28,8 +28,8 @@ body{
     text-align: center;
 }
 .logo{
-    margin-left: 10%;
-    /*margin-right: center;*/
+    margin-left: center;
+    margin-right: center;
     margin-top: 20px;
     color: #2A253B;
     font-size: 55px;
@@ -37,8 +37,8 @@ body{
 }
 
 .write{
-    margin-left: 10%;
-    /*margin-right: center;*/
+    margin-left: center;
+    margin-right: center;
     text-align: center;
     color: #FFFFFF;
     font-size: 20px;
