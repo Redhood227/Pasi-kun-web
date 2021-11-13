@@ -5,7 +5,9 @@
 <html>
     <head>
         <title>user info</title>
-        <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    </head>
+    <body>
+    <script src="https://static.line-scdn.net/liff/edge/versions/2.5.0/sdk.js"></script>
         <script>
             liff.init({ liffId: "1656562991-6qEqpDY4" }, () => {
                 if (liff.isLoggedIn()) {
@@ -19,8 +21,6 @@
                 }
         }, err => console.error(err.code, error.message));
         </script>
-    </head>
-    <body>
 
     <input id="userId" name="userId" >
             
