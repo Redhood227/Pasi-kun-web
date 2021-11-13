@@ -23,10 +23,11 @@
             liff.init({ liffId: "1656562991-6qEqpDY4" }, () => {
                 if (liff.isLoggedIn()) {
                     liff.getProfile().then(profile => {
-                        document.getElementById('user_id').value = profile.userId;
+                        document.getElementById('token').value =  liff.getIDToken();
                     }).catch(
                          err => console.error(err)
                     );
+                    
                 } else {
                     liff.login();
                 }
@@ -181,7 +182,7 @@
                             </div>
                         </section>
                     </div>
-                    <input id="user_id" name="user_id" type = "hidden">
+                    <input id="token" name="token" type = "hidden">
                     <section class="btn">
                         <div class="nav-btn">
                             <button id="sendMessageButton">บันทึกข้อมูล</button>

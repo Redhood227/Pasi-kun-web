@@ -2,7 +2,10 @@
     require("connect.php");
     
     if(isset($_POST['salary'])){
-        $user_id = $_POST['user_id'];
+        $token = $_POST['token'];
+        $dToken = base64_decode($token);
+        $arr = json_decode($dToken,true);
+        $user_id = $arr["sub"];
         $salary = $_POST['salary'];
         $bonus = $_POST['bonus'];
         $income= $_POST['income'];
