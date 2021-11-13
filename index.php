@@ -31,7 +31,7 @@
 
                 $user_id = $_SESSION['user_id'];
                 $sql = "SELECT * FROM info";
-                $s = "SELECT * FROM info WHERE '".$user_id."'";
+                $s = "SELECT * FROM info WHERE user_id='".$user_id."'";
                 $r = mysqli_query($conn, $s);
                 
                 /*if(!$r){
