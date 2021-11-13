@@ -181,7 +181,7 @@
                             </div>
                         </section>
                     </div>
-                    <input id="user_id" >
+                    <input id="user_id" name="user_id" >
                     <section class="btn">
                         <div class="nav-btn">
                             <button id="sendMessageButton">บันทึกข้อมูล</button>
