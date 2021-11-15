@@ -1,5 +1,6 @@
 <?php
     require("connect.php");
+    session_start();
 ?>
 <!DOCTYPE html>
 <html>
@@ -45,7 +46,6 @@ function createCookie(name, value, days) {
         
             
             <?php
-                session_start();
                 $user_id = $_COOKIE['user_id'];
                 $s = "SELECT * FROM info WHERE user_id=$user_id";
                 $r = mysqli_query($conn, $s);
