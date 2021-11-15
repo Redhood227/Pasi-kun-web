@@ -172,7 +172,7 @@
                             </div>
                         </section>
                     </div>
-                    <input id="user_id" name="user_id" >
+                    <input id="user_id" name="edit_user_id" >
                     <section class="btn">
                         <div class="nav-btn">
                             <input type="submit" value="บันทึกข้อมูล">

@@ -2,10 +2,7 @@
     require("connect.php");
     
     if(isset($_POST['salary'])){
-        $token = $_POST['token'];
-        $dToken = base64_decode($token);
-        $arr = json_decode($dToken,true);
-        $user_id = $arr["sub"];
+        $user_id = $arr["user_id"];
         $salary = $_POST['salary'];
         $bonus = $_POST['bonus'];
         $income= $_POST['income'];
@@ -36,7 +33,7 @@
         }
     }
 
-    else if(isset($_POST['user_id'])){
+    else if(isset($_POST['edit_user_id'])){
         $salary = $_POST['edit_salary'];
         $bonus = $_POST['edit_bonus'];
         $income= $_POST['edit_income'];
@@ -57,7 +54,7 @@
         $socSecur = $_POST['edit_socSecur'];
         $pFund = $_POST['edit_pFund'];
         
-        $user_id = $_POST['user_id'];
+        $user_id = $_POST['edit_user_id'];
         
         $sql = "UPDATE info SET salary='$salary',bonus='$bonus',income='$income',mStatus='$mStatus',nChild='$nChild',nParent='$nParent',rmf='$rmf',nsf='$nsf',ssf='$ssf',
                                         ssfx='$ssfx',insurance='$insurance',Ainsurance='$Ainsurance',donation='$donation',eduDonation='$eduDonation',floDonation='$floDonation',
