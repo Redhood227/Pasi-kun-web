@@ -51,13 +51,10 @@ function createCookie(name, value, days) {
                 $s = "SELECT * FROM info WHERE user_id='".$user_id."'";
                 $r = mysqli_query($conn, $s);
                 
-                /*if(!$r){
-                    header("location:addinfo.php");
-                }else{
-                    header("location:edit_form.php");
-                }*/
 
                 if(mysqli_num_rows($r)==1){
+                    session_start();
+                    $_SESSION['user_id'] = $user_id;
                     header("location:edit_form.php");
                 }
                 else{
@@ -66,6 +63,7 @@ function createCookie(name, value, days) {
                 
                 ?>
             
+        
     </body>
 </html>
 

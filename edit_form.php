@@ -2,9 +2,9 @@
     require("connect.php");
     
     if(isset($_GET['id'])){
-        
-        $id = $_GET['id'];
-        $sql = "SELECT * FROM info WHERE id = $id";
+        session_start();
+        $user_id = $_SESSION['user_id'];
+        $sql = "SELECT * FROM info WHERE user_id='".$user_id."'";
         $row = mysqli_query($conn, $sql);
         $result = mysqli_fetch_assoc($row);
         
