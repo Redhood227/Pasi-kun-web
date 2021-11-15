@@ -66,7 +66,6 @@ function createCookie(name, value, days) {
                 
                 ?>
             
-        
     </body>
 </html>
 
