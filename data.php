@@ -36,7 +36,7 @@
         }
     }
 
-    else if(isset($_POST['edit_form_id'])){
+    else if(isset($_POST['user_id'])){
         $salary = $_POST['edit_salary'];
         $bonus = $_POST['edit_bonus'];
         $income= $_POST['edit_income'];
@@ -57,11 +57,11 @@
         $socSecur = $_POST['edit_socSecur'];
         $pFund = $_POST['edit_pFund'];
         
-        $id = $_POST['edit_form_id'];
+        $user_id = $_POST['user_id'];
         
         $sql = "UPDATE info SET salary='$salary',bonus='$bonus',income='$income',mStatus='$mStatus',nChild='$nChild',nParent='$nParent',rmf='$rmf',nsf='$nsf',ssf='$ssf',
                                         ssfx='$ssfx',insurance='$insurance',Ainsurance='$Ainsurance',donation='$donation',eduDonation='$eduDonation',floDonation='$floDonation',
-                                        plubDonation='$plubDonation',hLoan='$hLoan',socSecur='$socSecur',pFund='$pFund' WHERE id=$id";
+                                        plubDonation='$plubDonation',hLoan='$hLoan',socSecur='$socSecur',pFund='$pFund' WHERE user_id=$user_id";
         
         if(mysqli_query($conn, $sql)) {
             echo "<br>บันทึกข้อมูลเสร็จสิ้น";

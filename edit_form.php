@@ -1,16 +1,14 @@
 <?php
     require("connect.php");
     
-    if(isset($_GET['id'])){
         session_start();
         $user_id = $_SESSION['user_id'];
-        $sql = "SELECT * FROM info WHERE user_id='".$user_id."'";
+        $sql = "SELECT * FROM info WHERE user_id = $user_id";
         $row = mysqli_query($conn, $sql);
         $result = mysqli_fetch_assoc($row);
         
         if(!$result){
             echo "Error: ".$sql."<br>".mysqli_error($conn);
-        }
     }
 ?>
 <html lang="th">
@@ -69,10 +67,10 @@
                                     <label for="status" id="status">สถานสมรส</label>
                                     <select name="edit_mStatus">
                                         <option value='<?php echo $result['mStatus']?>' selected='selected'></option>
-                                        <option value="0">โสด</option>
-                                        <option value="1">หย่า</option>
-                                        <option value="2">คู่สมรสมีเงินได้(แยกยื่น)</option>
-                                        <option value="3">คู่สมรสไม่มีเงินได้</option>
+                                        <option value="0" <?php if($result['mStatus']=="0") echo 'selected="selected"'; ?> >>โสด</option>
+                                        <option value="1" <?php if($result['mStatus']=="1") echo 'selected="selected"'; ?>>หย่า</option>
+                                        <option value="2" <?php if($result['mStatus']=="2") echo 'selected="selected"'; ?>>คู่สมรสมีเงินได้(แยกยื่น)</option>
+                                        <option value="3" <?php if($result['mStatus']=="3") echo 'selected="selected"'; ?>>คู่สมรสไม่มีเงินได้</option>
                                     </select>
                                 
                                     <label>บุตร (ถ้ามี)</label>
@@ -174,7 +172,7 @@
                             </div>
                         </section>
                     </div>
-                    <input type = "hidden" name="edit_form_id" value="<?php echo $result['id']?>">
+                    <input id="user_id" name="user_id" >
                     <section class="btn">
                         <div class="nav-btn">
                             <input type="submit" value="บันทึกข้อมูล">
