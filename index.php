@@ -1,5 +1,4 @@
 <?php
-    //session_start();
     require("connect.php");
 ?>
 <!DOCTYPE html>
@@ -52,7 +51,6 @@ function createCookie(name, value, days) {
                 
 
                 if(mysqli_num_rows($r)==1){
-                    //$_SESSION['user_id'] = $user_id;
                     header("location:edit_form.php");
                 }
                 else{

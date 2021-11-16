@@ -1,8 +1,7 @@
 <?php
     require("connect.php");
     
-        //session_start();
-        //$user_id = $_SESSION['user_id'];
+        
         $sql = "SELECT * FROM info WHERE user_id = $user_id";
         $row = mysqli_query($conn, $sql);
         $result = mysqli_fetch_assoc($row);
