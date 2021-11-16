@@ -9,6 +9,7 @@
             echo "Error: ".$sql."<br>".mysqli_error($conn);
     }
 ?>
+<!DOCTYPE html>
 <html lang="th">
     <head>
         <meta charset="UTF-8">
