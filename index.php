@@ -27,14 +27,13 @@
         }, err => console.error(err.code, error.message));
         $(document).ready(function(){
             var url = window.location.href;
-            var params = url.split('?ID=');
-            var id = (params[1]);
             $.ajax({
             type:"POST",
             url:"index.php",
-            data:{id:user_id},
+            data:{user_id:profile.userId},
             success:function(result){
             $("#content").html(result);
+            $("#submit").hide();
             }
         });
    });
