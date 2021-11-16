@@ -14,13 +14,13 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 
         <script>
+            $(document).ready(function () {
+                            createCookie("ีuserID", "plakao", "10");
+                    });
             liff.init({ liffId: "1656562991-6qEqpDY4" }, () => {
                 if (liff.isLoggedIn()) {
                     liff.getProfile().then(profile => {
                         document.getElementById('user_id').value = profile.userId;
-                        $(document).ready(function () {
-                            createCookie("ีuserID", "plakao", "10");
-                    });
                     }).catch(
                          err => console.error(err)
                     );
@@ -46,11 +46,11 @@ function createCookie(name, value, days) {
             
             <?php
                 echo $_COOKIE["userID"];
-                $s = "SELECT * FROM info WHERE user_id='$user_id'";
+                /*$s = "SELECT * FROM info WHERE user_id='$user_id'";
                 $r = mysqli_query($conn, $s);
                 $count = mysqli_num_rows($r);
 
-                /*if($count==1){
+                if($count==1){
                     header("location:edit_form.php");
                 }
                 else{
