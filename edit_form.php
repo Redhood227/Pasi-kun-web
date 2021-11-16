@@ -37,7 +37,7 @@ function createCookie(name, value, days) {
     require("connect.php");
     
         $edit_user_id = $_COOKIE['user_id'];
-        $s = "SELECT * FROM info WHERE user_id=$edit_user_id.";
+        $s = "SELECT * FROM info WHERE user_id='$edit_user_id'";
         $row = mysqli_query($conn, $sql);
         $result = mysqli_fetch_assoc($row);
         
