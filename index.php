@@ -32,7 +32,7 @@
         </script>
         <form id="theForm" method="POST" action="config.php">
                 <input id="user_id" name="user_id" type="hidden">
-                <input type="submit" type="hidden">
+                <input type="submit">
         </form>
             
         
