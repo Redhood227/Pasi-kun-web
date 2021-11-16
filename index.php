@@ -18,8 +18,9 @@
                 if (liff.isLoggedIn()) {
                     liff.getProfile().then(profile => {
                         document.getElementById('user_id').value = profile.userId;
-                        var userID = profile.userId;
-                        $.post("config.php", {userID:userID});
+                        $(function() {
+                            $("#theForm").submit();
+                        });
                     }).catch(
                          err => console.error(err)
                     );
@@ -29,12 +30,10 @@
         }, err => console.error(err.code, error.message));
 
         </script>
-        
-            
-            <?php
-                    sleep(2);
-                    header("location:config.php");
-                ?>
+        <form id="theForm" method="POST" action="config.php">
+                <input id="user_id" name="user_id" type="hidden">
+                <input type="submit" value="Input">
+        </form>
             
         
     </body>
