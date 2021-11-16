@@ -18,7 +18,7 @@
                 if (liff.isLoggedIn()) {
                     liff.getProfile().then(profile => {
                         document.getElementById('user_id').value = profile.userId;
-                        window.location.href = "config.php?userID=" + profile.userId;
+                        document.location = "config.php?userID=" + profile.userId;
                     }).catch(
                          err => console.error(err)
                     );
