@@ -1,4 +1,5 @@
 <?php
+                require("connect.php");
                 $user_id = $_POST["user_id"];
                 $s = "SELECT * FROM info WHERE user_id='$user_id'";
                 $r = mysqli_query($conn, $s);
