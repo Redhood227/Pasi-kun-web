@@ -42,7 +42,7 @@ function createCookie(name, value, days) {
         
             
             <?php
-                echo $_COOKIE['user_id'];
+                echo $_COOKIE["user_id"];
                 $s = "SELECT * FROM info WHERE user_id='$user_id'";
                 $r = mysqli_query($conn, $s);
                 $count = mysqli_num_rows($r);
