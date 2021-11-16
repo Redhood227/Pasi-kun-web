@@ -1,5 +1,6 @@
 <?php
     require("connect.php");
+    echo "edit page";
         $edit_user_id = $_SESSION['user_id'];
         $s = "SELECT * FROM info WHERE user_id='$edit_user_id'";
         $row = mysqli_query($conn, $sql);
