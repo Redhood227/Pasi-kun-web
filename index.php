@@ -48,9 +48,9 @@ function createCookie(name, value, days) {
                 $user_id = $_COOKIE['user_id'];
                 $s = "SELECT * FROM info WHERE user_id='$user_id'";
                 $r = mysqli_query($conn, $s);
-                
+                $count = mysqli_num_rows($r);
 
-                if(mysqli_num_rows($r)==1){
+                if($count==1){
                     header("location:edit_form.php");
                 }
                 else{
