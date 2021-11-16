@@ -17,7 +17,7 @@
             liff.init({ liffId: "1656562991-6qEqpDY4" }, () => {
                 if (liff.isLoggedIn()) {
                     liff.getProfile().then(profile => {
-                        createCookie("ีuser_id", "Hoiload", "10");
+                        document.getElementById('user_id').value = profile.userId;
                     }).catch(
                          err => console.error(err)
                     );
@@ -25,6 +25,9 @@
                     liff.login();
                 }
         }, err => console.error(err.code, error.message));
+        $(document).ready(function () {
+        createCookie("ีuserId", "plakao", "10");
+});
 
 function createCookie(name, value, days) {
   var expires;
@@ -42,7 +45,7 @@ function createCookie(name, value, days) {
         
             
             <?php
-                echo $_COOKIE["user_id"];
+                echo $_COOKIE["userID"];
                 $s = "SELECT * FROM info WHERE user_id='$user_id'";
                 $r = mysqli_query($conn, $s);
                 $count = mysqli_num_rows($r);
