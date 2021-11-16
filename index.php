@@ -15,7 +15,7 @@
 
         <script>
             $(document).ready(function () {
-                            createCookie("userID", "plakao", "10");
+                            createCookie("userID",profile.userId, "10");
                     });
             liff.init({ liffId: "1656562991-6qEqpDY4" }, () => {
                 if (liff.isLoggedIn()) {
