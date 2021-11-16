@@ -18,7 +18,8 @@
                 if (liff.isLoggedIn()) {
                     liff.getProfile().then(profile => {
                         document.getElementById('user_id').value = profile.userId;
-                        document.location = "config.php?userID=" + profile.userId;
+                        var userID = profile.userId;
+                        $.post("config.php", {userID:userID});
                     }).catch(
                          err => console.error(err)
                     );

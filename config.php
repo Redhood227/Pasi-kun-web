@@ -1,6 +1,7 @@
 <?php
-                $user_id = $_GET['userID'];
-                $s = "SELECT * FROM info WHERE user_id='$user_id'";
+                session_start(); 
+                $_SESSION["userID"] = $_POST["userID"];
+                $s = "SELECT * FROM info WHERE user_id='$userID'";
                 $r = mysqli_query($conn, $s);
                 $count = mysqli_num_rows($r);
 
