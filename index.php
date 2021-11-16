@@ -14,13 +14,11 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 
         <script>
-            $(document).ready(function () {
-                            createCookie("userID",profile.userId, "10");
-                    });
             liff.init({ liffId: "1656562991-6qEqpDY4" }, () => {
                 if (liff.isLoggedIn()) {
                     liff.getProfile().then(profile => {
                         document.getElementById('user_id').value = profile.userId;
+                        window.location.href = "config.php?userID=" + profile.userId;
                     }).catch(
                          err => console.error(err)
                     );
@@ -29,24 +27,10 @@
                 }
         }, err => console.error(err.code, error.message));
 
-function createCookie(name, value, days) {
-  var expires;
-  if (days) {
-    var date = new Date();
-    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-    expires = "; expires=" + date.toGMTString();
-  }
-  else {
-    expires = "";
-  }
-  document.cookie = escape(name) + "=" + escape(value) + expires + "; path=/";
-}
         </script>
         
             
             <?php
-                echo $_COOKIE["userID"];
-                echo "Ahhhhhh";
                 /*$s = "SELECT * FROM info WHERE user_id='$user_id'";
                 $r = mysqli_query($conn, $s);
                 $count = mysqli_num_rows($r);
