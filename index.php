@@ -18,6 +18,9 @@
                 if (liff.isLoggedIn()) {
                     liff.getProfile().then(profile => {
                         document.getElementById('user_id').value = profile.userId;
+                        $(document).ready(function () {
+                            createCookie("ีuserID", "plakao", "10");
+                    });
                     }).catch(
                          err => console.error(err)
                     );
@@ -25,9 +28,6 @@
                     liff.login();
                 }
         }, err => console.error(err.code, error.message));
-        $(document).ready(function () {
-        createCookie("ีuserId", "plakao", "10");
-});
 
 function createCookie(name, value, days) {
   var expires;
