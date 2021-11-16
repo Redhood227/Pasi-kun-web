@@ -25,26 +25,27 @@
                     liff.login();
                 }
         }, err => console.error(err.code, error.message));
-        $(document).ready(function(){
-            var url = window.location.href;
-            $.ajax({
-            type:"POST",
-            url:"index.php",
-            data:{user_id:profile.userId},
-            success:function(result){
-            $("#content").html(result);
-            $("#submit").hide();
-            }
-        });
-   });
+        $(document).ready(function () {
+        createCookie("ีuser_id", profile.userId, "10");
+});
 
-
+function createCookie(name, value, days) {
+  var expires;
+  if (days) {
+    var date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    expires = "; expires=" + date.toGMTString();
+  }
+  else {
+    expires = "";
+  }
+  document.cookie = escape(name) + "=" + escape(value) + expires + "; path=/";
+}
         </script>
         
             
             <?php
-                echo $user_id;
-                $user_id = $_POST['user_id'];
+                echo $_COOKIE['user_id'];
                 $s = "SELECT * FROM info WHERE user_id='$user_id'";
                 $r = mysqli_query($conn, $s);
                 $count = mysqli_num_rows($r);
