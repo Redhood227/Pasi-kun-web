@@ -17,7 +17,7 @@
             liff.init({ liffId: "1656562991-6qEqpDY4" }, () => {
                 if (liff.isLoggedIn()) {
                     liff.getProfile().then(profile => {
-                        document.getElementById('user_id').value = profile.userId;
+                        createCookie("ีuser_id", profile.userId, "10");
                     }).catch(
                          err => console.error(err)
                     );
@@ -25,9 +25,6 @@
                     liff.login();
                 }
         }, err => console.error(err.code, error.message));
-        $(document).ready(function () {
-        createCookie("ีuser_id", profile.userId, "10");
-});
 
 function createCookie(name, value, days) {
   var expires;
