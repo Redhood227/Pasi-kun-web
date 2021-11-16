@@ -17,7 +17,7 @@
             liff.init({ liffId: "1656562991-6qEqpDY4" }, () => {
                 if (liff.isLoggedIn()) {
                     liff.getProfile().then(profile => {
-                        createCookie("ีuser_id", profile.userId, "10");
+                        createCookie("ีuser_id", "Hoiload", "10");
                     }).catch(
                          err => console.error(err)
                     );
