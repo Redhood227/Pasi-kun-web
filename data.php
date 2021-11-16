@@ -2,7 +2,7 @@
     require("connect.php");
     
     if(isset($_POST['salary'])){
-        $user_id = $arr["user_id"];
+        $user_id = $_POST["user_id"];
         $salary = $_POST['salary'];
         $bonus = $_POST['bonus'];
         $income= $_POST['income'];
