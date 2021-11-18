@@ -70,7 +70,7 @@
                                     <label for="status" id="status">สถานสมรส</label>
                                     <select name="edit_mStatus">
                                         <option value='<?php echo $result['mStatus']?>' selected='selected'></option>
-                                        <option value="0" <?php if($result['mStatus']=="0") echo 'selected="selected"'; ?> >>โสด</option>
+                                        <option value="0" <?php if($result['mStatus']=="0") echo 'selected="selected"'; ?>>โสด</option>
                                         <option value="1" <?php if($result['mStatus']=="1") echo 'selected="selected"'; ?>>หย่า</option>
                                         <option value="2" <?php if($result['mStatus']=="2") echo 'selected="selected"'; ?>>คู่สมรสมีเงินได้(แยกยื่น)</option>
                                         <option value="3" <?php if($result['mStatus']=="3") echo 'selected="selected"'; ?>>คู่สมรสไม่มีเงินได้</option>
