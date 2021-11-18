@@ -28,6 +28,7 @@
                     liff.login();
                 }
         }, err => console.error(err.code, error.message));
+        <div class="loader"></div>
 
         </script>
         <form id="theForm" method="POST" action="config.php">

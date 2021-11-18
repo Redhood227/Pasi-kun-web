@@ -55,7 +55,6 @@ body{
     margin-bottom: 320px;
     margin-left: 1100px;
     margin-right: 100;
-    cursor: pointer;
     /* margin-left: 570px; */
 }
 .nav-btn a{
@@ -191,7 +190,7 @@ body{
 }
 
 label{
-    width: 160px;
+    width: 50px;
     display: inline-block;
 }
 
@@ -207,13 +206,7 @@ label1 {
     float: right;
 }
 
-input[type="submit"] {
-    background: #E3D690;
-    border: none;
-    cursor: pointer;
-   }
-
-   .loader {
+.loader {
     border: 16px solid #f3f3f3; /* Light grey */
     border-top: 16px solid #3498db; /* Blue */
     border-radius: 50%;
