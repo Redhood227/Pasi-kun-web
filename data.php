@@ -58,7 +58,7 @@
         
         $sql = "UPDATE info SET salary='$salary',bonus='$bonus',income='$income',mStatus='$mStatus',nChild='$nChild',nParent='$nParent',rmf='$rmf',nsf='$nsf',ssf='$ssf',
                                         ssfx='$ssfx',insurance='$insurance',Ainsurance='$Ainsurance',donation='$donation',eduDonation='$eduDonation',floDonation='$floDonation',
-                                        plubDonation='$plubDonation',hLoan='$hLoan',socSecur='$socSecur',pFund='$pFund' WHERE user_id=$user_id";
+                                        plubDonation='$plubDonation',hLoan='$hLoan',socSecur='$socSecur',pFund='$pFund' WHERE user_id='$user_id'";
         
         if(mysqli_query($conn, $sql)) {
             echo "<br>บันทึกข้อมูลเสร็จสิ้น";
