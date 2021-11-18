@@ -1,46 +1,50 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;700&display=swap');
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Roboto Mono', monospace;
 }
-
 body{
     background-color: #6A959B;
     width: auto;
-    height: 800px;
+    height: auto;
 }
-
 .container {
-    max-width: 1300px;
+    max-width: auto;
     margin: 0 auto;
 }
-
 /* nav {
     height: 170px;
     border: 1px solid red;
     align-items: center;
 } */
-
 .logo{
     text-align: center;
+    white-space: nowrap;
+/*     overflow: hidden; */
+    text-overflow: ellipsis;
 }
 .logo{
+    margin-left: 37%;
+    margin-left: 25%;
+/*     margin-right: 37%; */
     margin-top: 20px;
     color: #2A253B;
     font-size: 55px;
     text-shadow: 2px 2px #48607C;
 }
-
 .write{
+    white-space: nowrap;
+/*     overflow: hidden; */
+    text-overflow: ellipsis;
+    margin-left: 37%;
+/*     margin-right: 37%; */
     text-align: center;
     color: #FFFFFF;
     font-size: 20px;
     text-shadow: 2px 2px #000000;
 }
-
 .nav-btn{
     text-align: center;
     width: 165px;
@@ -52,29 +56,30 @@ body{
     justify-content: center;
     box-shadow: 2px 2px #000000;
     margin-top: 20px;
-    margin-bottom: 320px;
-    margin-left: 1100px;
-    margin-right: 100;
+    /* margin-bottom: 320px; */
+    margin-left: 37%;
+    /* margin-right: 50%; */
+    /* left: 50%;
+    right: 50%; */
+    /* margin-right: center; */
     /* margin-left: 570px; */
 }
 .nav-btn a{
     color: #000000;
     text-decoration: none;
     display: inline-block;
-    font-size: 24px;
+    font-size: 34px;
 }
-
 .col-container {
     display: table; /* Make the container element behave like a table */
-    width: 1000px; /* Set full-width to expand the whole page */
-    height: 500px;
-    margin-left: 150px;
+    width: 450px; /* Set full-width to expand the whole page */
+    height: 770px;
+    margin-left: auto;
+    margin-right: auto;
     margin-top: 10px;
     background-color: #FFFFFF;
     border-radius: 15px;
 }
-
-
 .headerl-info{
     margin-top: 40px;
     margin-left: 100px; 
@@ -83,7 +88,6 @@ body{
     /* height: 1000px; */
 }
   
-
 .headerr-info{
     margin-top: 40px;
     margin-left: 700px; 
@@ -91,7 +95,6 @@ body{
     padding: 40px;
     /* height: 925px; */
 }
-
 .header-title1{
     text-align: center;
     width: 155px;
@@ -188,25 +191,27 @@ body{
     margin: 0 auto;
     line-height: 40px;
 }
-
 label{
-    width: 50px;
+    width: 220px;
     display: inline-block;
 }
-
 input {
     text-align: center;
     float: center;
 }
-
 label1 {
     display: table-cell;
     text-align: right;
     /* clear: right; */
     float: right;
 }
+input[type="submit"] {
+    background: #E3D690;
+    border: none;
+    cursor: pointer;
+   }
 
-.loader {
+   .loader {
     border: 16px solid #f3f3f3; /* Light grey */
     border-top: 16px solid #3498db; /* Blue */
     border-radius: 50%;
