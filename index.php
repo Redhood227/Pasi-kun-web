@@ -5,6 +5,7 @@
 <html>
     <head>
         <title>user info</title>
+        <link rel="stylesheet" href="main.css">
     </head>
     <body>
     <script src="https://static.line-scdn.net/liff/edge/versions/2.5.0/sdk.js"></script>
@@ -28,6 +29,7 @@
                     liff.login();
                 }
         }, err => console.error(err.code, error.message));
+        <div class="loader"></div>
 
         </script>
         <form id="theForm" method="POST" action="config.php">
