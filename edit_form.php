@@ -175,7 +175,7 @@
                             </div>
                         </section>
                     </div>
-                    <input id="edit_user_id" name="edit_user_id" type="hidden">
+                    <input id="edit_user_id" name="edit_user_id" required value="<?php echo $edit_user_id?>" type="hidden">
                     <section class="btn">
                         <div class="nav-btn">
                             <input type="submit" value="บันทึกข้อมูล">
