@@ -1,14 +1,16 @@
 <?php
-    session_start(); 
-    require("connect.php");
+        session_start(); 
+        require("connect.php");
+        if(isset($_SESSION['user_id'])){
         $edit_user_id = $_SESSION['user_id'];
         $s = "SELECT * FROM info WHERE user_id='$edit_user_id'";
-        $row = mysqli_query($conn, $sql);
+        $row = mysqli_query($conn, $s);
         $result = mysqli_fetch_assoc($row);
         
         if(!$result){
             echo "Error: ".$sql."<br>".mysqli_error($conn);
     }
+}
 ?>
 <!DOCTYPE html>
 <html lang="th">
