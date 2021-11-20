@@ -39,7 +39,7 @@ function processMessage($update)
         $count = mysqli_num_rows($result);
         if ($count == 1) {
             $r = mysqli_fetch_assoc($result);
-            cal($r);
+            $netinc=cal($r);
             //ส่วนของ Flex Message
 
             $flexDataJson = '{
