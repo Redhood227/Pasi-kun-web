@@ -1,4 +1,5 @@
 <?php
+require('sendMessage.php');
 //error_reporting(0);
 header('Content-Type: text/html; charset=utf-8');
 date_default_timezone_set("Asia/Bangkok");
@@ -29,31 +30,34 @@ array(
 ));
 }else if($update["queryResult"]["action"] == "school"){
     require("connect.php");
+    $user_id =  $request['originalDetectIntentRequest']['payload']['data']['source']['userId'];
     $sql = "SELECT * FROM info where pid ='$user_id'";
     $r = mysqli_query($conn, $sql);
     $count = mysqli_num_rows($r);
         if($count==1){
             $result = mysqli_fetch_assoc($r);
+            cal($result);
+            sentMessage($encodeJson,$datas);
         }
     
     if(!$result){
-        //ถ้าเออเร่อตอบยังไง
+        sendMessage(array(
+            "source" => $update["responseId"],
+            "fulfillmentText"=>"ไม่มีข้อมูลในระบบ",
+            "payload" => array(
+            "items"=>[
+            array(
+            "simpleResponse"=>
+            array(
+            "textToSpeech"=>"response from host"
+            )
+            )
+            ],
+            ),
+            
+            ));
     }
-sendMessage(array(
-"source" => $update["responseId"],
-"fulfillmentText"=>$ppp,
-"payload" => array(
-"items"=>[
-array(
-"simpleResponse"=>
-array(
-"textToSpeech"=>$ppp
-)
-)
-],
-),
 
-));
 
 }else{
 sendMessage(array(
@@ -86,7 +90,7 @@ processMessage($update);
 
 }else{
 sendMessage(array(
-“source” => $update[“responseId”],
+"source" => $update["responseId"],
 "fulfillmentText"=>"Hello from webhook",
 "payload" => array(
 "items"=>[
@@ -102,19 +106,7 @@ array(
 ));
 }
 
-
-/*require("connect.php");
-$sql = "SELECT * FROM info where pid ='$user_id'";
-$r = mysqli_query($conn, $sql);
-$count = mysqli_num_rows($r);
-    if($count==1){
-        $result = mysqli_fetch_assoc($r);
-    }
-
-if(!$result){
-    //ถ้าเออเร่อตอบยังไง
-}
-
+function cal($result){
 //รวมรายได้และหักค่าใช้จ่าย
 $netinc = $result['salary'] + $result['bonus']; 
 if($result['income']>=120000){
@@ -145,8 +137,8 @@ if($result['nParent']>0){
 }
 
 //ประกัน เงินออม การลงทุน
-caltax($netinc);
-
+return caltax($netinc);
+}
 
 function caltax($netinc)
 {
@@ -181,6 +173,8 @@ function caltax($netinc)
         $sum1 = (($seventh * 35) / 100) + 1265000;
         $base = 0.35;
     }
+
+    return $sum1;
 }
 
 //ส่วนของ Flex Message
@@ -308,8 +302,8 @@ require 'sendMessage.php';
   $datas['token'] = "3/Mp4TwJW1nEWKWe/I6jIHC6SkkSWa739lSdPoMSAlIUxpMB2zRfwow6ZHiBLaBl/87gHDv+ZA/3DHWbi/RErr0zHQnBpn2kTfgU15u3nHEPyV4b+yjEMlPnnLy8peqNibg+m2+CgZGsvvL9eg6YBQdB04t89/1O/w1cDnyilFU=";
   $messages['to'] = '$user_id';
   $messages['messages'][] = $flexDataJsonDeCode;
-  $encodeJson = json_encode($messages);*/
+  $encodeJson = json_encode($messages);
 
 
-  //sentMessage($encodeJson,$datas);
+  
 ?>
