@@ -42,7 +42,7 @@ function processMessage($update)
             $netinc=cal($r);
             sendMessage(array(
                 "source" => $update["responseId"],
-                "fulfillmentText" => "ภาษี '.$netinc.'",
+                "fulfillmentText" => "ภาษี: '.$netinc.'",
                 "payload" => array(
                     "items" => [
                         array(
@@ -53,9 +53,8 @@ function processMessage($update)
                         )
                     ],
                 ),
-
+    
             ));
-        }
         }
 
         if (!$result) {
