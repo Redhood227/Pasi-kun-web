@@ -18,7 +18,7 @@
 	$encodeJson = json_encode($messages);
 
 	$LINEDatas['url'] = "https://api.line.me/v2/bot/message/reply";
-  	$LINEDatas['token'] = "<YOUR-CHANNEL-ACCESS-TOKEN>";
+  	$LINEDatas['token'] = "3/Mp4TwJW1nEWKWe/I6jIHC6SkkSWa739lSdPoMSAlIUxpMB2zRfwow6ZHiBLaBl/87gHDv+ZA/3DHWbi/RErr0zHQnBpn2kTfgU15u3nHEPyV4b+yjEMlPnnLy8peqNibg+m2+CgZGsvvL9eg6YBQdB04t89/1O/w1cDnyilFU=";
 
   	$results = sentMessage($encodeJson,$LINEDatas);
 
@@ -75,7 +75,7 @@
 		return $datasReturn;
 	}
 
-require("connect.php");
+/*require("connect.php");
 $sql = "SELECT * FROM info where pid ='$user_id'";
 $r = mysqli_query($conn, $sql);
 $count = mysqli_num_rows($r);
@@ -280,7 +280,7 @@ require 'sendMessage.php';
   $datas['token'] = "3/Mp4TwJW1nEWKWe/I6jIHC6SkkSWa739lSdPoMSAlIUxpMB2zRfwow6ZHiBLaBl/87gHDv+ZA/3DHWbi/RErr0zHQnBpn2kTfgU15u3nHEPyV4b+yjEMlPnnLy8peqNibg+m2+CgZGsvvL9eg6YBQdB04t89/1O/w1cDnyilFU=";
   $messages['to'] = '$user_id';
   $messages['messages'][] = $flexDataJsonDeCode;
-  $encodeJson = json_encode($messages);
+  $encodeJson = json_encode($messages);*/
 
 
   //sentMessage($encodeJson,$datas);
