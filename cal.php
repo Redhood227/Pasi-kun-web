@@ -17,6 +17,7 @@ $input = fopen("log_json.txt", "w") or die("Unable to open file!");
 fwrite($input, $json);
 fclose($input);
 
+if($action=="sayHello"){
 require("connect.php");
 $sql = "SELECT * FROM info where pid ='$user_id'";
 $r = mysqli_query($conn, $sql);
@@ -231,11 +232,10 @@ function processMessage($update,$encodeJson,$datas) {
     }
 }
 
-
 $update_response = file_get_contents("php://input");
 $update = json_decode($update_response, true);
 if (isset($update["result"]["action"])) {
     processMessage($update,$encodeJson,$datas);
 }
-
+}
 ?>
