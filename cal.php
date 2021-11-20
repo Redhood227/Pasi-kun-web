@@ -299,5 +299,5 @@ function cal($result)
 
     //ประกัน เงินออม การลงทุน
     $first = caltax($netinc);
-    $base1 = $GLOBALS["base"];
+    //$base1 = $GLOBALS["base"];
 }
