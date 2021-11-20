@@ -34,8 +34,10 @@ function processMessage($update)
         $request = json_decode($json, true);
         require("connect.php");
         $user_id =  $request['originalDetectIntentRequest']['payload']['data']['source']['userId'];
-        
-        
+        $LINEDatas['url'] = "https://api.line.me/v2/bot/profile/".$user_id;
+        $LINEDatas['token'] = "3/Mp4TwJW1nEWKWe/I6jIHC6SkkSWa739lSdPoMSAlIUxpMB2zRfwow6ZHiBLaBl/87gHDv+ZA/3DHWbi/RErr0zHQnBpn2kTfgU15u3nHEPyV4b+yjEMlPnnLy8peqNibg+m2+CgZGsvvL9eg6YBQdB04t89/1O/w1cDnyilFU=";
+        $results = getLINEProfile($LINEDatas);
+        $name = $results['message']['displayName'];
         $sql = "SELECT * FROM info where user_id ='$user_id'";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
@@ -71,6 +73,11 @@ function processMessage($update)
                                                 "text": "สรุปผล",
                                                 "weight": "bold",
                                                 "size": "xxl",
+                                                "contents": []
+                                            },
+                                            {
+                                                "type": "text",
+                                                "text": "'.$name.'",
                                                 "contents": []
                                             },
                                             {
@@ -138,7 +145,7 @@ function processMessage($update)
                                             },
                                             {
                                                 "type": "text",
-                                                "text": "บาท",
+                                                "text": "'.$netinc.' บาท",
                                                 "weight": "bold",
                                                 "align": "end",
                                                 "gravity": "center",
@@ -301,4 +308,39 @@ function cal($result)
     //ประกัน เงินออม การลงทุน
     return caltax($netinc);
     //$base1 = $GLOBALS["base"];
+}
+
+function getLINEProfile($datas)
+{
+   $datasReturn = [];
+   $curl = curl_init();
+   curl_setopt_array($curl, array(
+     CURLOPT_URL => $datas['url'],
+     CURLOPT_RETURNTRANSFER => true,
+     CURLOPT_ENCODING => "",
+     CURLOPT_MAXREDIRS => 10,
+     CURLOPT_TIMEOUT => 30,
+     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+     CURLOPT_CUSTOMREQUEST => "GET",
+     CURLOPT_HTTPHEADER => array(
+       "Authorization: Bearer ".$datas['token'],
+       "cache-control: no-cache"
+     ),
+   ));
+   $response = curl_exec($curl);
+   $err = curl_error($curl);
+   curl_close($curl);
+   if($err){
+      $datasReturn['result'] = 'E';
+      $datasReturn['message'] = $err;
+   }else{
+      if($response == "{}"){
+          $datasReturn['result'] = 'S';
+          $datasReturn['message'] = 'Success';
+      }else{
+          $datasReturn['result'] = 'E';
+          $datasReturn['message'] = $response;
+      }
+   }
+   return $datasReturn;
 }
