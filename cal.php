@@ -1,24 +1,28 @@
 <?php
+function processMessage($update) {
+    if($update["result"]["action"] == "sayHello"){
+        sendMessage(array(
+            "source" => $update["result"]["source"],
+            "speech" => "Hello from webhook",
+            "displayText" => "Hello from webhook",
+            "contextOut" => array()
+        ));
+    }
+}
 
-error_reporting(0);
-date_default_timezone_set("Asia/Bangkok");
-$date = date("Y-m-d");
-$time = date("H:i:s");
-$json = file_get_contents('php://input');
-$request = json_decode($json, true);
-$queryText = $request["queryResult"]["queryText"];
-$action = $request["queryResult"]["action"];
-$user_id = $request['originalDetectIntentRequest']['payload']['data']['source']['userId'];
-$myfile = fopen("log$date.txt", "a") or die("Unable to open file!");
-$log = $date . "-" . $time . "\t" . $userId . "\t" . $queryText . "\n" . $c . "\n";
-fwrite($myfile, $log);
-fclose($myfile);
-$input = fopen("log_json.txt", "w") or die("Unable to open file!");
-fwrite($input, $json);
-fclose($input);
+function sendMessage($parameters) {
+    echo json_encode($parameters);
+}
 
-if($action=="sayHello"){
-require("connect.php");
+$update_response = file_get_contents("php://input");
+$update = json_decode($update_response, true);
+if (isset($update["result"]["action"])) {
+    processMessage($update);
+}
+
+
+
+/*require("connect.php");
 $sql = "SELECT * FROM info where pid ='$user_id'";
 $r = mysqli_query($conn, $sql);
 $count = mysqli_num_rows($r);
@@ -223,19 +227,8 @@ require 'sendMessage.php';
   $datas['token'] = "3/Mp4TwJW1nEWKWe/I6jIHC6SkkSWa739lSdPoMSAlIUxpMB2zRfwow6ZHiBLaBl/87gHDv+ZA/3DHWbi/RErr0zHQnBpn2kTfgU15u3nHEPyV4b+yjEMlPnnLy8peqNibg+m2+CgZGsvvL9eg6YBQdB04t89/1O/w1cDnyilFU=";
   $messages['to'] = '$user_id';
   $messages['messages'][] = $flexDataJsonDeCode;
-  $encodeJson = json_encode($messages);
-  require("sendMessage.php");
+  $encodeJson = json_encode($messages);*/
 
-function processMessage($update,$encodeJson,$datas) {
-    if($update["result"]["action"] == "sayHello"){
-        sentMessage($encodeJson,$datas);
-    }
-}
 
-$update_response = file_get_contents("php://input");
-$update = json_decode($update_response, true);
-if (isset($update["result"]["action"])) {
-    processMessage($update,$encodeJson,$datas);
-}
-}
+  //sentMessage($encodeJson,$datas);
 ?>
