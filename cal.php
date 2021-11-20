@@ -33,7 +33,7 @@ array(
     $request = json_decode($json, true);
     require("connect.php");
     $user_id =  $request['originalDetectIntentRequest']['payload']['data']['source']['userId'];
-    $sql = "SELECT * FROM info where pid ='$user_id'";
+    $sql = "SELECT * FROM info where user_id ='$user_id'";
     $result = mysqli_query($conn, $sql);
     $count = mysqli_num_rows($result);
         if($count==1){
