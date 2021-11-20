@@ -43,121 +43,131 @@ function processMessage($update)
             //ส่วนของ Flex Message
 
             $flexDataJson = '{
-  "line": {
-    "type": "flex",
-    "altText": "This is a Flex Message",
-    "contents": {
-{
-  "type": "bubble",
-  "header": {
-    "type": "box",
-    "layout": "horizontal",
-    "contents": [
-      {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [
-          {
-            "type": "text",
-            "text": "Pasi-kun",
-            "weight": "bold",
-            "size": "xl",
-            "color": "#0021FFFF",
-            "contents": []
-          },
-          {
-            "type": "text",
-            "text": "สรุปผล",
-            "weight": "bold",
-            "size": "xxl",
-            "contents": []
-          },
-          {
-            "type": "text",
-            "text": "ชื่อโปรไฟล์",
-            "contents": []
-          },
-          {
-            "type": "separator",
-            "margin": "lg"
-          }
-        ]
-      }
-    ]
-  },
-  "body": {
-    "type": "box",
-    "layout": "horizontal",
-    "contents": [
-      {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [
-          {
-            "type": "text",
-            "text": "เงินได้สุทธิ"+"' . $netinc . '",
-            "contents": []
-          },
-          {
-            "type": "text",
-            "text": "ค่าลดหย่อน",
-            "margin": "lg",
-            "contents": []
-          },
-          {
-            "type": "separator",
-            "margin": "lg"
-          },
-          {
-            "type": "text",
-            "text": "ภาษีที่ต้องจ่าย",
-            "weight": "bold",
-            "margin": "md",
-            "contents": []
-          }
-        ]
-      },
-      {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [
-          {
-            "type": "text",
-            "text": "บาท",
-            "align": "end",
-            "gravity": "top",
-            "contents": []
-          },
-          {
-            "type": "text",
-            "text": "บาท",
-            "align": "end",
-            "gravity": "center",
-            "margin": "lg",
-            "contents": []
-          },
-          {
-            "type": "separator",
-            "margin": "lg"
-          },
-          {
-            "type": "text",
-            "text": "บาท",
-            "weight": "bold",
-            "align": "end",
-            "gravity": "center",
-            "margin": "md",
-            "contents": []
-          }
-        ]
-      }
-    ]
-  }
-}
-     
-    }
-  }
-}';
+                "fulfillmentMessages": [
+              {
+                "platform": "line",
+                "type": 4,
+                "payload" : {
+                "line": {
+                "type": "flex",
+                "altText": "This is a Flex Message",
+                "contents": {
+                "type": "bubble",
+                "header": {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "Pasi-kun",
+                        "weight": "bold",
+                        "size": "xl",
+                        "color": "#0021FFFF",
+                        "contents": []
+                      },
+                      {
+                        "type": "text",
+                        "text": "สรุปผล",
+                        "weight": "bold",
+                        "size": "xxl",
+                        "contents": []
+                      },
+                      {
+                        "type": "text",
+                        "text": "ชื่อโปรไฟล์",
+                        "contents": []
+                      },
+                      {
+                        "type": "separator",
+                        "margin": "lg"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "body": {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                  {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "เงินได้สุทธิ",
+                        "contents": ['.$netinc.']
+                      },
+                      {
+                        "type": "text",
+                        "text": "ค่าลดหย่อน",
+                        "margin": "lg",
+                        "contents": []
+                      },
+                      {
+                        "type": "separator",
+                        "margin": "lg"
+                      },
+                      {
+                        "type": "text",
+                        "text": "ภาษีที่ต้องจ่าย",
+                        "weight": "bold",
+                        "margin": "md",
+                        "contents": []
+                      }
+                    ]
+                  },
+                  {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "บาท",
+                        "align": "end",
+                        "gravity": "top",
+                        "contents": []
+                      },
+                      {
+                        "type": "text",
+                        "text": "บาท",
+                        "align": "end",
+                        "gravity": "center",
+                        "margin": "lg",
+                        "contents": []
+                      },
+                      {
+                        "type": "separator",
+                        "margin": "lg"
+                      },
+                      {
+                        "type": "text",
+                        "text": "บาท",
+                        "weight": "bold",
+                        "align": "end",
+                        "gravity": "center",
+                        "margin": "md",
+                        "contents": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            
+                 
+                }
+              }
+            
+                    
+               }
+              }
+             ]
+            }
+            ';
             $flexDataJsonDeCode = json_decode($flexDataJson, true);
 
             $datas['url'] = "https://api.line.me/v2/bot/message/push";
