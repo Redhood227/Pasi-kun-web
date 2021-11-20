@@ -34,6 +34,7 @@ function processMessage($update)
         $request = json_decode($json, true);
         require("connect.php");
         $user_id =  $request['originalDetectIntentRequest']['payload']['data']['source']['userId'];
+        $name = $request['originalDetectIntentRequest']['payload']['data']['source']['displayName'];
         $sql = "SELECT * FROM info where user_id ='$user_id'";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
@@ -73,7 +74,7 @@ function processMessage($update)
                                             },
                                             {
                                                 "type": "text",
-                                                "text": "ชื่อโปรไฟล์",
+                                                "text": '.$name.',
                                                 "contents": []
                                             },
                                             {
