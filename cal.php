@@ -10,18 +10,17 @@
 	$replyToken = $deCode['events'][0]['replyToken'];
 	$userId = $deCode['events'][0]['source']['userId'];
 	$text = $deCode['events'][0]['message']['text'];
-
+    if($text=="แสดงผลการคำนวณ"){
 	$messages = [];
 	$messages['replyToken'] = $replyToken;
 	$messages['messages'][0] = getFormatTextMessage("เอ้ย ถามอะไรก็ตอบได้");
 
 	$encodeJson = json_encode($messages);
-
+    
 	$LINEDatas['url'] = "https://api.line.me/v2/bot/message/reply";
   	$LINEDatas['token'] = "3/Mp4TwJW1nEWKWe/I6jIHC6SkkSWa739lSdPoMSAlIUxpMB2zRfwow6ZHiBLaBl/87gHDv+ZA/3DHWbi/RErr0zHQnBpn2kTfgU15u3nHEPyV4b+yjEMlPnnLy8peqNibg+m2+CgZGsvvL9eg6YBQdB04t89/1O/w1cDnyilFU=";
-
   	$results = sentMessage($encodeJson,$LINEDatas);
-
+    }
 	/*Return HTTP Request 200*/
 	http_response_code(200);
 
