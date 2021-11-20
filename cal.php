@@ -34,15 +34,8 @@ function processMessage($update)
         $request = json_decode($json, true);
         require("connect.php");
         $user_id =  $request['originalDetectIntentRequest']['payload']['data']['source']['userId'];
-        $opts = [
-            "http" =>[
-            "header" => "Content-Type: application/json"."Authorization: Bearer 3/Mp4TwJW1nEWKWe/I6jIHC6SkkSWa739lSdPoMSAlIUxpMB2zRfwow6ZHiBLaBl/87gHDv+ZA/3DHWbi/RErr0zHQnBpn2kTfgU15u3nHEPyV4b+yjEMlPnnLy8peqNibg+m2+CgZGsvvL9eg6YBQdB04t89/1O/w1cDnyilFU="
-            ]
-            ];
-            $context = stream_context_create($opts);
-        $profile_json = file_get_contents('https://api.line.me/v2/bot/profile/'.$user_id,false,$context);
-        $profile_array = json_decode($profile_json,true);
-        $name = $profile_array['displayName'];
+        
+        
         $sql = "SELECT * FROM info where user_id ='$user_id'";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
@@ -78,11 +71,6 @@ function processMessage($update)
                                                 "text": "สรุปผล",
                                                 "weight": "bold",
                                                 "size": "xxl",
-                                                "contents": []
-                                            },
-                                            {
-                                                "type": "text",
-                                                "text": '.$name.',
                                                 "contents": []
                                             },
                                             {
