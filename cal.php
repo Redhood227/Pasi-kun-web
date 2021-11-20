@@ -1,16 +1,24 @@
 <?php
-//error_reporting(0);
-header('Content-Type: text/html; charset=utf-8');
-date_default_timezone_set('Asia/Bangkok');
-$date = date('Y-m-d');
-$time = date('H:i:s');
+
+error_reporting(0);
+date_default_timezone_set("Asia/Bangkok");
+$date = date("Y-m-d");
+$time = date("H:i:s");
 $json = file_get_contents('php://input');
 $request = json_decode($json, true);
-$input = fopen('log_json.txt', 'w') or die('Unable to open file!');
-fwrite($input,$json);
+$queryText = $request["queryResult"]["queryText"];
+$action = $request["queryResult"]["action"];
+$user_id = $request['originalDetectIntentRequest']['payload']['data']['source']['userId'];
+$myfile = fopen("log$date.txt", "a") or die("Unable to open file!");
+$log = $date . "-" . $time . "\t" . $userId . "\t" . $queryText . "\n" . $c . "\n";
+fwrite($myfile, $log);
+fclose($myfile);
+$input = fopen("log_json.txt", "w") or die("Unable to open file!");
+fwrite($input, $json);
 fclose($input);
 
-$API_URL = 'https://api.line.me/v2/bot/message/reply';
+
+/*$API_URL = 'https://api.line.me/v2/bot/message/reply';
 $ACCESS_TOKEN = '3/Mp4TwJW1nEWKWe/I6jIHC6SkkSWa739lSdPoMSAlIUxpMB2zRfwow6ZHiBLaBl/87gHDv+ZA/3DHWbi/RErr0zHQnBpn2kTfgU15u3nHEPyV4b+yjEMlPnnLy8peqNibg+m2+CgZGsvvL9eg6YBQdB04t89/1O/w1cDnyilFU='; // Access Token จาก Line developer
 $POST_HEADER = array('Content-Type: application/json', 'Authorization: Bearer line_token');
 $request = file_get_contents('php://input');
@@ -20,7 +28,7 @@ foreach ($request_array['events'] as $event) {
 $reply_message ='';
 $reply_token = $event['replyToken'];
 $user_id = $event['source']['userId'];
-}}
+}}*/
 
 require("connect.php");
 $sql = "SELECT * FROM info where pid ='$user_id'";
