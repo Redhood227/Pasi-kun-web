@@ -1,239 +1,191 @@
-<?php
-
-error_reporting(0);
-date_default_timezone_set("Asia/Bangkok");
-$date = date("Y-m-d");
-$time = date("H:i:s");
-$json = file_get_contents('php://input');
-$request = json_decode($json, true);
-$queryText = $request["queryResult"]["queryText"];
-$action = $request["queryResult"]["action"];
-$user_id = $request['originalDetectIntentRequest']['payload']['data']['source']['userId'];
-$myfile = fopen("log$date.txt", "a") or die("Unable to open file!");
-$log = $date . "-" . $time . "\t" . $userId . "\t" . $queryText . "\n" . $c . "\n";
-fwrite($myfile, $log);
-fclose($myfile);
-$input = fopen("log_json.txt", "w") or die("Unable to open file!");
-fwrite($input, $json);
-fclose($input);
-
-
-/*$API_URL = 'https://api.line.me/v2/bot/message/reply';
-$ACCESS_TOKEN = '3/Mp4TwJW1nEWKWe/I6jIHC6SkkSWa739lSdPoMSAlIUxpMB2zRfwow6ZHiBLaBl/87gHDv+ZA/3DHWbi/RErr0zHQnBpn2kTfgU15u3nHEPyV4b+yjEMlPnnLy8peqNibg+m2+CgZGsvvL9eg6YBQdB04t89/1O/w1cDnyilFU='; // Access Token จาก Line developer
-$POST_HEADER = array('Content-Type: application/json', 'Authorization: Bearer line_token');
-$request = file_get_contents('php://input');
-$request_array = json_decode($request, true);
-if (sizeof($request_array['events']) > 0) {
-foreach ($request_array['events'] as $event) {
-$reply_message ='';
-$reply_token = $event['replyToken'];
-$user_id = $event['source']['userId'];
-}}*/
-
-require("connect.php");
-$sql = "SELECT * FROM info where pid ='$user_id'";
-$r = mysqli_query($conn, $sql);
-$count = mysqli_num_rows($r);
-    if($count==1){
-        $result = mysqli_fetch_assoc($r);
-    }
-
-if(!$result){
-    //ถ้าเออเร่อตอบยังไง
-}
-
-//รวมรายได้และหักค่าใช้จ่าย
-$netinc = $result['salary'] + $result['bonus']; 
-if($result['income']>=120000){
-    $sum2=$result['income']*0.005;
-}
-$netinc=$netinc+$result['income'];
-if($netinc<=200000){
-    $netinc=$netinc*50/100;
-}
-else{
-    $netinc=$netinc-100000;
-}
-
-//การลดหย่อนส่วนตัวและครอบครัว
-$netinc=$netinc-60000;
-if($result['mStatus']==3){
-    $netinc=$netinc-60000;
-}
-if($result['nChild']>0){
-    $netinc=$netinc-(30000*$result['nChild']);
-}
-if($result['nParent']>0){
-    if($result['nParent']<4){
-        $netinc=$netinc-(30000*$result['nChild']);}
-    else{
-        $netinc=$netinc-(30000*4);
-    }
-}
-
-//ประกัน เงินออม การลงทุน
-caltax($netinc);
-
-
-function caltax($netinc)
-{
-    if ($netinc <= 150000) {
-        $sum1 = 0;
-    } elseif (300000 >= $netinc) {
-        $first = $netinc - 150000;
-        $sum1 = ($first * 5) / 100;
-        $base = 0.05;
-    } elseif (500000 >= $netinc) {
-        $second = $netinc - 300000;
-        $sum1 = (($second * 10) / 100) + 7500;
-        $base = 0.1;
-    } elseif (750000 >= $netinc) {
-        $third = $netinc - 500000;
-        $sum1 = (($third * 15) / 100) + 27500;
-        $base = 0.15;
-    } elseif (1000000 >= $netinc) {
-        $forth = $netinc - 750000;
-        $sum1 = (($forth * 20) / 100) + 65000;
-        $base = 0.2;
-    } elseif (2000000 >= $netinc) {
-        $fifth = $netinc - 1000000;
-        $sum1 = (($fifth * 25) / 100) + 115000;
-        $base = 0.25;
-    } elseif (5000000 >= $netinc) {
-        $sixth = $netinc - 2000000;
-        $sum1 = (($sixth * 30) / 100) + 365000;
-        $base = 0.3;
-    } elseif ($netinc > 5000000) {
-        $seventh = $netinc - 750000;
-        $sum1 = (($seventh * 35) / 100) + 1265000;
-        $base = 0.35;
-    }
-}
-
-//ส่วนของ Flex Message
-require 'sendMessage.php';
+<?php 
+  require 'sendMessage.php';
 
   $flexDataJson = '{
-    "line": {
-      "type": "flex",
-      "altText": "This is a Flex Message",
-      "contents": {
-  {
-    "type": "bubble",
-    "header": {
-      "type": "box",
-      "layout": "horizontal",
-      "contents": [
-        {
-          "type": "box",
-          "layout": "vertical",
-          "contents": [
-            {
-              "type": "text",
-              "text": "Pasi-kun",
-              "weight": "bold",
-              "size": "xl",
-              "color": "#0021FFFF",
-              "contents": []
-            },
-            {
-              "type": "text",
-              "text": "สรุปผล",
-              "weight": "bold",
-              "size": "xxl",
-              "contents": []
-            },
-            {
-              "type": "text",
-              "text": "ชื่อโปรไฟล์",
-              "contents": []
-            },
-            {
-              "type": "separator",
-              "margin": "lg"
-            }
-          ]
-        }
-      ]
-    },
-    "body": {
-      "type": "box",
-      "layout": "horizontal",
-      "contents": [
-        {
-          "type": "box",
-          "layout": "vertical",
-          "contents": [
-            {
-              "type": "text",
-              "text": "เงินได้สุทธิ"+"'.$netinc.'",
-              "contents": []
-            },
-            {
-              "type": "text",
-              "text": "ค่าลดหย่อน",
-              "margin": "lg",
-              "contents": []
-            },
-            {
-              "type": "separator",
-              "margin": "lg"
-            },
-            {
-              "type": "text",
-              "text": "ภาษีที่ต้องจ่าย",
-              "weight": "bold",
-              "margin": "md",
-              "contents": []
-            }
-          ]
-        },
-        {
-          "type": "box",
-          "layout": "vertical",
-          "contents": [
-            {
-              "type": "text",
-              "text": "บาท",
-              "align": "end",
-              "gravity": "top",
-              "contents": []
-            },
-            {
-              "type": "text",
-              "text": "บาท",
-              "align": "end",
-              "gravity": "center",
-              "margin": "lg",
-              "contents": []
-            },
-            {
-              "type": "separator",
-              "margin": "lg"
-            },
-            {
-              "type": "text",
-              "text": "บาท",
-              "weight": "bold",
-              "align": "end",
-              "gravity": "center",
-              "margin": "md",
-              "contents": []
-            }
-          ]
-        }
-      ]
-    }
-  }
-       
-      }
-    }
-  }';
+	  "type": "flex",
+	  "altText": "Flex Message",
+	  "contents": {
+	    "type": "carousel",
+	    "contents": [
+	      {
+	        "type": "bubble",
+	        "hero": {
+	          "type": "image",
+	          "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_5_carousel.png",
+	          "size": "full",
+	          "aspectRatio": "20:13",
+	          "aspectMode": "cover"
+	        },
+	        "body": {
+	          "type": "box",
+	          "layout": "vertical",
+	          "spacing": "sm",
+	          "contents": [
+	            {
+	              "type": "text",
+	              "text": "Arm Chair, White",
+	              "size": "xl",
+	              "weight": "bold",
+	              "wrap": true
+	            },
+	            {
+	              "type": "box",
+	              "layout": "baseline",
+	              "contents": [
+	                {
+	                  "type": "text",
+	                  "text": "$49",
+	                  "flex": 0,
+	                  "size": "xl",
+	                  "weight": "bold",
+	                  "wrap": true
+	                },
+	                {
+	                  "type": "text",
+	                  "text": ".99",
+	                  "flex": 0,
+	                  "size": "sm",
+	                  "weight": "bold",
+	                  "wrap": true
+	                }
+	              ]
+	            }
+	          ]
+	        },
+	        "footer": {
+	          "type": "box",
+	          "layout": "vertical",
+	          "spacing": "sm",
+	          "contents": [
+	            {
+	              "type": "button",
+	              "action": {
+	                "type": "uri",
+	                "label": "Add to Cart",
+	                "uri": "https://linecorp.com"
+	              },
+	              "style": "primary"
+	            },
+	            {
+	              "type": "button",
+	              "action": {
+	                "type": "uri",
+	                "label": "Add to whishlist",
+	                "uri": "https://linecorp.com"
+	              }
+	            }
+	          ]
+	        }
+	      },
+	      {
+	        "type": "bubble",
+	        "hero": {
+	          "type": "image",
+	          "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_6_carousel.png",
+	          "size": "full",
+	          "aspectRatio": "20:13",
+	          "aspectMode": "cover"
+	        },
+	        "body": {
+	          "type": "box",
+	          "layout": "vertical",
+	          "spacing": "sm",
+	          "contents": [
+	            {
+	              "type": "text",
+	              "text": "Metal Desk Lamp",
+	              "size": "xl",
+	              "weight": "bold",
+	              "wrap": true
+	            },
+	            {
+	              "type": "box",
+	              "layout": "baseline",
+	              "flex": 1,
+	              "contents": [
+	                {
+	                  "type": "text",
+	                  "text": "$11",
+	                  "flex": 0,
+	                  "size": "xl",
+	                  "weight": "bold",
+	                  "wrap": true
+	                },
+	                {
+	                  "type": "text",
+	                  "text": ".99",
+	                  "flex": 0,
+	                  "size": "sm",
+	                  "weight": "bold",
+	                  "wrap": true
+	                }
+	              ]
+	            },
+	            {
+	              "type": "text",
+	              "text": "Temporarily out of stock",
+	              "flex": 0,
+	              "margin": "md",
+	              "size": "xxs",
+	              "color": "#FF5551",
+	              "wrap": true
+	            }
+	          ]
+	        },
+	        "footer": {
+	          "type": "box",
+	          "layout": "vertical",
+	          "spacing": "sm",
+	          "contents": [
+	            {
+	              "type": "button",
+	              "action": {
+	                "type": "uri",
+	                "label": "Add to Cart",
+	                "uri": "https://linecorp.com"
+	              },
+	              "flex": 2,
+	              "color": "#AAAAAA",
+	              "style": "primary"
+	            },
+	            {
+	              "type": "button",
+	              "action": {
+	                "type": "uri",
+	                "label": "Add to wish list",
+	                "uri": "https://linecorp.com"
+	              }
+	            }
+	          ]
+	        }
+	      },
+	      {
+	        "type": "bubble",
+	        "body": {
+	          "type": "box",
+	          "layout": "vertical",
+	          "spacing": "sm",
+	          "contents": [
+	            {
+	              "type": "button",
+	              "action": {
+	                "type": "uri",
+	                "label": "See more",
+	                "uri": "https://linecorp.com"
+	              },
+	              "flex": 1,
+	              "gravity": "center"
+	            }
+	          ]
+	        }
+	      }
+	    ]
+	  }
+	}';
   $flexDataJsonDeCode = json_decode($flexDataJson,true);
-
   $datas['url'] = "https://api.line.me/v2/bot/message/push";
-  $datas['token'] = "3/Mp4TwJW1nEWKWe/I6jIHC6SkkSWa739lSdPoMSAlIUxpMB2zRfwow6ZHiBLaBl/87gHDv+ZA/3DHWbi/RErr0zHQnBpn2kTfgU15u3nHEPyV4b+yjEMlPnnLy8peqNibg+m2+CgZGsvvL9eg6YBQdB04t89/1O/w1cDnyilFU=";
-  $messages['to'] = '$user_id';
+  $datas['token'] = "<access token>";
+  $messages['to'] = "<user id>";
   $messages['messages'][] = $flexDataJsonDeCode;
   $encodeJson = json_encode($messages);
 
