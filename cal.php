@@ -29,6 +29,8 @@ array(
 
 ));
 }else if($update["queryResult"]["action"] == "school"){
+    $json = file_get_contents('php://input');
+    $request = json_decode($json, true);
     require("connect.php");
     $user_id =  $request['originalDetectIntentRequest']['payload']['data']['source']['userId'];
     $sql = "SELECT * FROM info where pid ='$user_id'";
