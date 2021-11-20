@@ -39,22 +39,129 @@ function processMessage($update)
         $count = mysqli_num_rows($result);
         if ($count == 1) {
             $r = mysqli_fetch_assoc($result);
-            $netinc=cal($r);
-            sendMessage(array(
-                "source" => $update["responseId"],
-                "fulfillmentText" => "ภาษี: '.$netinc.'",
-                "payload" => array(
-                    "items" => [
-                        array(
-                            "simpleResponse" =>
-                            array(
-                                "textToSpeech" => "response from host"
-                            )
-                        )
-                    ],
-                ),
-    
-            ));
+            $netinc = cal($r);
+            $flexDataJson = '"type": "flex",
+            "altText": "This is a Flex Message",
+            "contents": {
+        {
+          "type": "bubble",
+          "header": {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "Pasi-kun",
+                    "weight": "bold",
+                    "size": "xl",
+                    "color": "#0021FFFF",
+                    "contents": []
+                  },
+                  {
+                    "type": "text",
+                    "text": "สรุปผล",
+                    "weight": "bold",
+                    "size": "xxl",
+                    "contents": []
+                  },
+                  {
+                    "type": "text",
+                    "text": "ชื่อโปรไฟล์",
+                    "contents": []
+                  },
+                  {
+                    "type": "separator",
+                    "margin": "lg"
+                  }
+                ]
+              }
+            ]
+          },
+          "body": {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "เงินได้สุทธิ",
+                    "contents": []
+                  },
+                  {
+                    "type": "text",
+                    "text": "ค่าลดหย่อน",
+                    "margin": "lg",
+                    "contents": []
+                  },
+                  {
+                    "type": "separator",
+                    "margin": "lg"
+                  },
+                  {
+                    "type": "text",
+                    "text": "ภาษีที่ต้องจ่าย",
+                    "weight": "bold",
+                    "margin": "md",
+                    "contents": []
+                  }
+                ]
+              },
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "บาท",
+                    "align": "end",
+                    "gravity": "top",
+                    "contents": []
+                  },
+                  {
+                    "type": "text",
+                    "text": "บาท",
+                    "align": "end",
+                    "gravity": "center",
+                    "margin": "lg",
+                    "contents": []
+                  },
+                  {
+                    "type": "separator",
+                    "margin": "lg"
+                  },
+                  {
+                    "type": "text",
+                    "text": "บาท",
+                    "weight": "bold",
+                    "align": "end",
+                    "gravity": "center",
+                    "margin": "md",
+                    "contents": []
+                  }
+                ]
+              }
+            ]
+          }
+        }
+             
+            }';
+            $flexDataJsonDeCode = json_decode($flexDataJson, true);
+
+            $datas['url'] = "https://api.line.me/v2/bot/message/push";
+            $datas['token'] = "3/Mp4TwJW1nEWKWe/I6jIHC6SkkSWa739lSdPoMSAlIUxpMB2zRfwow6ZHiBLaBl/87gHDv+ZA/3DHWbi/RErr0zHQnBpn2kTfgU15u3nHEPyV4b+yjEMlPnnLy8peqNibg+m2+CgZGsvvL9eg6YBQdB04t89/1O/w1cDnyilFU=";
+            $messages['to'] = $user_id;
+            $messages['messages'][] = $flexDataJsonDeCode;
+            $encodeJson = json_encode($messages);
+
+
+            sentMessage($encodeJson, $datas);
         }
 
         if (!$result) {
@@ -150,8 +257,11 @@ function cal($result)
         }
     }
 
+
+
     //ประกัน เงินออม การลงทุน
-    return caltax($netinc);
+    $first = caltax($netinc);
+    $base = $GLOBALS['base'];
 }
 
 function caltax($netinc)
