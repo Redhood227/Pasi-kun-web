@@ -41,7 +41,6 @@ function processMessage($update)
             $r = mysqli_fetch_assoc($result);
             cal($r);
             //ส่วนของ Flex Message
-            require 'sendMessage.php';
 
             $flexDataJson = '{
   "line": {
