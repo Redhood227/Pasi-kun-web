@@ -1,78 +1,91 @@
 <?php
-
-	/*Get Data From POST Http Request*/
-	$datas = file_get_contents('php://input');
-	/*Decode Json From LINE Data Body*/
-	$deCode = json_decode($datas,true);
-
-	file_put_contents('log.txt', file_get_contents('php://input') . PHP_EOL, FILE_APPEND);
-
-	$replyToken = $deCode['events'][0]['replyToken'];
-	$userId = $deCode['events'][0]['source']['userId'];
-	$text = $deCode['events'][0]['message']['text'];
-    if($text=="แสดงผลการคำนวณ"){
-	$messages = [];
-	$messages['replyToken'] = $replyToken;
-	$messages['messages'][0] = getFormatTextMessage("เอ้ย ถามอะไรก็ตอบได้");
-
-	$encodeJson = json_encode($messages);
-    
-	$LINEDatas['url'] = "https://api.line.me/v2/bot/message/reply";
-  	$LINEDatas['token'] = "3/Mp4TwJW1nEWKWe/I6jIHC6SkkSWa739lSdPoMSAlIUxpMB2zRfwow6ZHiBLaBl/87gHDv+ZA/3DHWbi/RErr0zHQnBpn2kTfgU15u3nHEPyV4b+yjEMlPnnLy8peqNibg+m2+CgZGsvvL9eg6YBQdB04t89/1O/w1cDnyilFU=";
-  	$results = sentMessage($encodeJson,$LINEDatas);
+function processMessage($update) {
+    if($update["queryResult"]["action"] == "sayHello"){
+        sendMessage(array(
+            "source" => $update["responseId"],
+            "fulfillmentText"=>"Hello from webhook",
+            "payload" => array(
+                "items"=>[
+                    array(
+                        "simpleResponse"=>
+                    array(
+                        "textToSpeech"=>"response from host"
+                         )
+                    )
+                ],
+                ),
+           
+        ));
+    }else if($update["queryResult"]["action"] == "convert"){
+        if($update["queryResult"]["parameters"]["outputcurrency"] == "USD"){
+           $amount =  intval($update["queryResult"]["parameters"]["amountToConverte"]["amount"]);
+           $convertresult = $amount * 360;
+        }
+         sendMessage(array(
+            "source" => $update["responseId"],
+            "fulfillmentText"=>"The conversion result is".$convertresult,
+            "payload" => array(
+                "items"=>[
+                    array(
+                        "simpleResponse"=>
+                    array(
+                        "textToSpeech"=>"The conversion result is".$convertresult
+                         )
+                    )
+                ],
+                ),
+           
+        ));
+    }else{
+        sendMessage(array(
+            "source" => $update["responseId"],
+            "fulfillmentText"=>"Error",
+            "payload" => array(
+                "items"=>[
+                    array(
+                        "simpleResponse"=>
+                    array(
+                        "textToSpeech"=>"Bad request"
+                         )
+                    )
+                ],
+                ),
+           
+        ));
+        
     }
-	/*Return HTTP Request 200*/
-	http_response_code(200);
+}
+ 
+function sendMessage($parameters) {
+    echo json_encode($parameters);
+}
+ 
+$update_response = file_get_contents("php://input");
+$update = json_decode($update_response, true);
+if (isset($update["queryResult"]["action"])) {
+    processMessage($update);
+    $myfile = fopen("newfile.txt", "w") or die("Unable to open file!");
+   fwrite($myfile, $update["queryResult"]["action"]);
+    fclose($myfile);
+}else{
+     sendMessage(array(
+            "source" => $update["responseId"],
+            "fulfillmentText"=>"Hello from webhook",
+            "payload" => array(
+                "items"=>[
+                    array(
+                        "simpleResponse"=>
+                    array(
+                        "textToSpeech"=>"Bad request"
+                         )
+                    )
+                ],
+                ),
+           
+        ));
+}
 
-	function getFormatTextMessage($text)
-	{
-		$datas = [];
-		$datas['type'] = 'text';
-		$datas['text'] = $text;
 
-		return $datas;
-	}
-
-	function sentMessage($encodeJson,$datas)
-	{
-		$datasReturn = [];
-		$curl = curl_init();
-		curl_setopt_array($curl, array(
-		  CURLOPT_URL => $datas['url'],
-		  CURLOPT_RETURNTRANSFER => true,
-		  CURLOPT_ENCODING => "",
-		  CURLOPT_MAXREDIRS => 10,
-		  CURLOPT_TIMEOUT => 30,
-		  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-		  CURLOPT_CUSTOMREQUEST => "POST",
-		  CURLOPT_POSTFIELDS => $encodeJson,
-		  CURLOPT_HTTPHEADER => array(
-		    "authorization: Bearer ".$datas['token'],
-		    "cache-control: no-cache",
-		    "content-type: application/json; charset=UTF-8",
-		  ),
-		));
-
-		$response = curl_exec($curl);
-		$err = curl_error($curl);
-
-		curl_close($curl);
-
-		if ($err) {
-		    $datasReturn['result'] = 'E';
-		    $datasReturn['message'] = $err;
-		} else {
-		    if($response == "{}"){
-			$datasReturn['result'] = 'S';
-			$datasReturn['message'] = 'Success';
-		    }else{
-			$datasReturn['result'] = 'E';
-			$datasReturn['message'] = $response;
-		    }
-		}
-
-		return $datasReturn;
-	}
 
 /*require("connect.php");
 $sql = "SELECT * FROM info where pid ='$user_id'";
@@ -279,7 +292,7 @@ require 'sendMessage.php';
   $datas['token'] = "3/Mp4TwJW1nEWKWe/I6jIHC6SkkSWa739lSdPoMSAlIUxpMB2zRfwow6ZHiBLaBl/87gHDv+ZA/3DHWbi/RErr0zHQnBpn2kTfgU15u3nHEPyV4b+yjEMlPnnLy8peqNibg+m2+CgZGsvvL9eg6YBQdB04t89/1O/w1cDnyilFU=";
   $messages['to'] = '$user_id';
   $messages['messages'][] = $flexDataJsonDeCode;
-  $encodeJson = json_encode($messages);*/
+  $encodeJson = json_encode($messages);
 
 
   //sentMessage($encodeJson,$datas);
