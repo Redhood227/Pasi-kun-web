@@ -34,8 +34,14 @@ function processMessage($update)
         $request = json_decode($json, true);
         require("connect.php");
         $user_id =  $request['originalDetectIntentRequest']['payload']['data']['source']['userId'];
+        $opts = [
+            "http" =>[
+            "header" => "Content-Type: application/json\r\n"."Authorization: Bearer 3/Mp4TwJW1nEWKWe/I6jIHC6SkkSWa739lSdPoMSAlIUxpMB2zRfwow6ZHiBLaBl/87gHDv+ZA/3DHWbi/RErr0zHQnBpn2kTfgU15u3nHEPyV4b+yjEMlPnnLy8peqNibg+m2+CgZGsvvL9eg6YBQdB04t89/1O/w1cDnyilFU="
+            ]
+            ];
+            $context = stream_context_create($opts);
         $profile_json = file_get_contents('https://api.line.me/v2/bot/profile/'.$user_id,false,$context);
-        $profile_array = json_decode($profile_json,true);   
+        $profile_array = json_decode($profile_json,true);
         $name = $profile_array['displayName'];
         $sql = "SELECT * FROM info where user_id ='$user_id'";
         $result = mysqli_query($conn, $sql);
@@ -97,7 +103,7 @@ function processMessage($update)
                                         "contents": [
                                             {
                                                 "type": "text",
-                                                "text": "เงินได้สุทธิ",
+                                                "text": "เงินได้ก่อนหักภาษี",
                                                 "contents": []
                                             },
                                             {
@@ -144,7 +150,7 @@ function processMessage($update)
                                             },
                                             {
                                                 "type": "text",
-                                                "text": "บาท",
+                                                "text": "'.$netinc.' บาท",
                                                 "weight": "bold",
                                                 "align": "end",
                                                 "gravity": "center",
@@ -305,6 +311,6 @@ function cal($result)
 
 
     //ประกัน เงินออม การลงทุน
-    $first = caltax($netinc);
+    return caltax($netinc);
     //$base1 = $GLOBALS["base"];
 }
