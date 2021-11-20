@@ -34,11 +34,11 @@ array(
     require("connect.php");
     $user_id =  $request['originalDetectIntentRequest']['payload']['data']['source']['userId'];
     $sql = "SELECT * FROM info where pid ='$user_id'";
-    $r = mysqli_query($conn, $sql);
-    $count = mysqli_num_rows($r);
+    $result = mysqli_query($conn, $sql);
+    $count = mysqli_num_rows($result);
         if($count==1){
-            $result = mysqli_fetch_assoc($r);
-            cal($result);
+            $r = mysqli_fetch_assoc($result);
+            cal($r);
             sentMessage($encodeJson,$datas);
         }
     
