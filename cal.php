@@ -150,7 +150,7 @@ function processMessage($update)
                                             },
                                             {
                                                 "type": "text",
-                                                "text": "'.$netinc.' บาท",
+                                                "text": "บาท",
                                                 "weight": "bold",
                                                 "align": "end",
                                                 "gravity": "center",
