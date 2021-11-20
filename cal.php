@@ -8,138 +8,263 @@ $time = date("H:i:s");
 $json = file_get_contents('php://input');
 $request = json_decode($json, true);
 $input = fopen("log_json.txt", "w") or die("Unable to open file!");
-fwrite($input,$json);
+fwrite($input, $json);
 fclose($input);
 
-function processMessage($update) {
-if($update["queryResult"]["action"] == "sayHello"){
-sendMessage(array(
-"source" => $update["responseId"],
-"fulfillmentText"=>"Hello from webhook",
-"payload" => array(
-"items"=>[
-array(
-"simpleResponse"=>
-array(
-"textToSpeech"=>"response from host"
-)
-)
-],
-),
-
-));
-}else if($update["queryResult"]["action"] == "school"){
-    $json = file_get_contents('php://input');
-    $request = json_decode($json, true);
-    require("connect.php");
-    $user_id =  $request['originalDetectIntentRequest']['payload']['data']['source']['userId'];
-    $sql = "SELECT * FROM info where user_id ='$user_id'";
-    $result = mysqli_query($conn, $sql);
-    $count = mysqli_num_rows($result);
-        if($count==1){
-            $r = mysqli_fetch_assoc($result);
-            cal($r);
-            sentMessage($encodeJson,$datas);
-        }
-    
-    if(!$result){
+function processMessage($update)
+{
+    if ($update["queryResult"]["action"] == "sayHello") {
         sendMessage(array(
             "source" => $update["responseId"],
-            "fulfillmentText"=>"ไม่มีข้อมูลในระบบ",
+            "fulfillmentText" => "Hello from webhook",
             "payload" => array(
-            "items"=>[
-            array(
-            "simpleResponse"=>
-            array(
-            "textToSpeech"=>"response from host"
-            )
-            )
-            ],
+                "items" => [
+                    array(
+                        "simpleResponse" =>
+                        array(
+                            "textToSpeech" => "response from host"
+                        )
+                    )
+                ],
             ),
-            
-            ));
+
+        ));
+    } else if ($update["queryResult"]["action"] == "school") {
+        $json = file_get_contents('php://input');
+        $request = json_decode($json, true);
+        require("connect.php");
+        $user_id =  $request['originalDetectIntentRequest']['payload']['data']['source']['userId'];
+        $sql = "SELECT * FROM info where user_id ='$user_id'";
+        $result = mysqli_query($conn, $sql);
+        $count = mysqli_num_rows($result);
+        if ($count == 1) {
+            $r = mysqli_fetch_assoc($result);
+            cal($r);
+            //ส่วนของ Flex Message
+            require 'sendMessage.php';
+
+            $flexDataJson = '{
+  "line": {
+    "type": "flex",
+    "altText": "This is a Flex Message",
+    "contents": {
+{
+  "type": "bubble",
+  "header": {
+    "type": "box",
+    "layout": "horizontal",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "Pasi-kun",
+            "weight": "bold",
+            "size": "xl",
+            "color": "#0021FFFF",
+            "contents": []
+          },
+          {
+            "type": "text",
+            "text": "สรุปผล",
+            "weight": "bold",
+            "size": "xxl",
+            "contents": []
+          },
+          {
+            "type": "text",
+            "text": "ชื่อโปรไฟล์",
+            "contents": []
+          },
+          {
+            "type": "separator",
+            "margin": "lg"
+          }
+        ]
+      }
+    ]
+  },
+  "body": {
+    "type": "box",
+    "layout": "horizontal",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "เงินได้สุทธิ"+"' . $netinc . '",
+            "contents": []
+          },
+          {
+            "type": "text",
+            "text": "ค่าลดหย่อน",
+            "margin": "lg",
+            "contents": []
+          },
+          {
+            "type": "separator",
+            "margin": "lg"
+          },
+          {
+            "type": "text",
+            "text": "ภาษีที่ต้องจ่าย",
+            "weight": "bold",
+            "margin": "md",
+            "contents": []
+          }
+        ]
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "บาท",
+            "align": "end",
+            "gravity": "top",
+            "contents": []
+          },
+          {
+            "type": "text",
+            "text": "บาท",
+            "align": "end",
+            "gravity": "center",
+            "margin": "lg",
+            "contents": []
+          },
+          {
+            "type": "separator",
+            "margin": "lg"
+          },
+          {
+            "type": "text",
+            "text": "บาท",
+            "weight": "bold",
+            "align": "end",
+            "gravity": "center",
+            "margin": "md",
+            "contents": []
+          }
+        ]
+      }
+    ]
+  }
+}
+     
     }
+  }
+}';
+            $flexDataJsonDeCode = json_decode($flexDataJson, true);
 
+            $datas['url'] = "https://api.line.me/v2/bot/message/push";
+            $datas['token'] = "3/Mp4TwJW1nEWKWe/I6jIHC6SkkSWa739lSdPoMSAlIUxpMB2zRfwow6ZHiBLaBl/87gHDv+ZA/3DHWbi/RErr0zHQnBpn2kTfgU15u3nHEPyV4b+yjEMlPnnLy8peqNibg+m2+CgZGsvvL9eg6YBQdB04t89/1O/w1cDnyilFU=";
+            $messages['to'] = '$user_id';
+            $messages['messages'][] = $flexDataJsonDeCode;
+            $encodeJson = json_encode($messages);
 
-}else{
-sendMessage(array(
-"source" => $update["responseId"],
-"fulfillmentText"=>"ไม่ได้อยู่ใน intent ใดใด",
-"payload" => array(
-"items"=>[
-array(
-"simpleResponse"=>
-array(
-"textToSpeech"=>"Bad request"
-)
-)
-],
-),
+            sentMessage($encodeJson, $datas);
+        }
 
-));
+        if (!$result) {
+            sendMessage(array(
+                "source" => $update["responseId"],
+                "fulfillmentText" => "ไม่มีข้อมูลในระบบ",
+                "payload" => array(
+                    "items" => [
+                        array(
+                            "simpleResponse" =>
+                            array(
+                                "textToSpeech" => "response from host"
+                            )
+                        )
+                    ],
+                ),
 
+            ));
+        }
+    } else {
+        sendMessage(array(
+            "source" => $update["responseId"],
+            "fulfillmentText" => "ไม่ได้อยู่ใน intent ใดใด",
+            "payload" => array(
+                "items" => [
+                    array(
+                        "simpleResponse" =>
+                        array(
+                            "textToSpeech" => "Bad request"
+                        )
+                    )
+                ],
+            ),
+
+        ));
+    }
 }
-}
 
-function sendMessage($parameters) {
-echo json_encode($parameters);
+function sendMessage($parameters)
+{
+    echo json_encode($parameters);
 }
 
 $update_response = file_get_contents("php://input");
 $update = json_decode($update_response, true);
 if (isset($update["queryResult"]["action"])) {
-processMessage($update);
+    processMessage($update);
+} else {
+    sendMessage(array(
+        "source" => $update["responseId"],
+        "fulfillmentText" => "Hello from webhook",
+        "payload" => array(
+            "items" => [
+                array(
+                    "simpleResponse" =>
+                    array(
+                        "textToSpeech" => "Bad request"
+                    )
+                )
+            ],
+        ),
 
-}else{
-sendMessage(array(
-"source" => $update["responseId"],
-"fulfillmentText"=>"Hello from webhook",
-"payload" => array(
-"items"=>[
-array(
-"simpleResponse"=>
-array(
-"textToSpeech"=>"Bad request"
-)
-)
-],
-),
-
-));
-}
-
-function cal($result){
-//รวมรายได้และหักค่าใช้จ่าย
-$netinc = $result['salary'] + $result['bonus']; 
-if($result['income']>=120000){
-    $sum2=$result['income']*0.005;
-}
-$netinc=$netinc+$result['income'];
-if($netinc<=200000){
-    $netinc=$netinc*50/100;
-}
-else{
-    $netinc=$netinc-100000;
+    ));
 }
 
-//การลดหย่อนส่วนตัวและครอบครัว
-$netinc=$netinc-60000;
-if($result['mStatus']==3){
-    $netinc=$netinc-60000;
-}
-if($result['nChild']>0){
-    $netinc=$netinc-(30000*$result['nChild']);
-}
-if($result['nParent']>0){
-    if($result['nParent']<4){
-        $netinc=$netinc-(30000*$result['nChild']);}
-    else{
-        $netinc=$netinc-(30000*4);
+function cal($result)
+{
+    //รวมรายได้และหักค่าใช้จ่าย
+    $netinc = $result['salary'] + $result['bonus'];
+    if ($result['income'] >= 120000) {
+        $sum2 = $result['income'] * 0.005;
     }
-}
+    $netinc = $netinc + $result['income'];
+    if ($netinc <= 200000) {
+        $netinc = $netinc * 50 / 100;
+    } else {
+        $netinc = $netinc - 100000;
+    }
 
-//ประกัน เงินออม การลงทุน
-return caltax($netinc);
+    //การลดหย่อนส่วนตัวและครอบครัว
+    $netinc = $netinc - 60000;
+    if ($result['mStatus'] == 3) {
+        $netinc = $netinc - 60000;
+    }
+    if ($result['nChild'] > 0) {
+        $netinc = $netinc - (30000 * $result['nChild']);
+    }
+    if ($result['nParent'] > 0) {
+        if ($result['nParent'] < 4) {
+            $netinc = $netinc - (30000 * $result['nChild']);
+        } else {
+            $netinc = $netinc - (30000 * 4);
+        }
+    }
+
+    //ประกัน เงินออม การลงทุน
+    return caltax($netinc);
 }
 
 function caltax($netinc)
@@ -178,134 +303,3 @@ function caltax($netinc)
 
     return $sum1;
 }
-
-//ส่วนของ Flex Message
-require 'sendMessage.php';
-
-  $flexDataJson = '{
-    "line": {
-      "type": "flex",
-      "altText": "This is a Flex Message",
-      "contents": {
-  {
-    "type": "bubble",
-    "header": {
-      "type": "box",
-      "layout": "horizontal",
-      "contents": [
-        {
-          "type": "box",
-          "layout": "vertical",
-          "contents": [
-            {
-              "type": "text",
-              "text": "Pasi-kun",
-              "weight": "bold",
-              "size": "xl",
-              "color": "#0021FFFF",
-              "contents": []
-            },
-            {
-              "type": "text",
-              "text": "สรุปผล",
-              "weight": "bold",
-              "size": "xxl",
-              "contents": []
-            },
-            {
-              "type": "text",
-              "text": "ชื่อโปรไฟล์",
-              "contents": []
-            },
-            {
-              "type": "separator",
-              "margin": "lg"
-            }
-          ]
-        }
-      ]
-    },
-    "body": {
-      "type": "box",
-      "layout": "horizontal",
-      "contents": [
-        {
-          "type": "box",
-          "layout": "vertical",
-          "contents": [
-            {
-              "type": "text",
-              "text": "เงินได้สุทธิ"+"'.$netinc.'",
-              "contents": []
-            },
-            {
-              "type": "text",
-              "text": "ค่าลดหย่อน",
-              "margin": "lg",
-              "contents": []
-            },
-            {
-              "type": "separator",
-              "margin": "lg"
-            },
-            {
-              "type": "text",
-              "text": "ภาษีที่ต้องจ่าย",
-              "weight": "bold",
-              "margin": "md",
-              "contents": []
-            }
-          ]
-        },
-        {
-          "type": "box",
-          "layout": "vertical",
-          "contents": [
-            {
-              "type": "text",
-              "text": "บาท",
-              "align": "end",
-              "gravity": "top",
-              "contents": []
-            },
-            {
-              "type": "text",
-              "text": "บาท",
-              "align": "end",
-              "gravity": "center",
-              "margin": "lg",
-              "contents": []
-            },
-            {
-              "type": "separator",
-              "margin": "lg"
-            },
-            {
-              "type": "text",
-              "text": "บาท",
-              "weight": "bold",
-              "align": "end",
-              "gravity": "center",
-              "margin": "md",
-              "contents": []
-            }
-          ]
-        }
-      ]
-    }
-  }
-       
-      }
-    }
-  }';
-  $flexDataJsonDeCode = json_decode($flexDataJson,true);
-
-  $datas['url'] = "https://api.line.me/v2/bot/message/push";
-  $datas['token'] = "3/Mp4TwJW1nEWKWe/I6jIHC6SkkSWa739lSdPoMSAlIUxpMB2zRfwow6ZHiBLaBl/87gHDv+ZA/3DHWbi/RErr0zHQnBpn2kTfgU15u3nHEPyV4b+yjEMlPnnLy8peqNibg+m2+CgZGsvvL9eg6YBQdB04t89/1O/w1cDnyilFU=";
-  $messages['to'] = '$user_id';
-  $messages['messages'][] = $flexDataJsonDeCode;
-  $encodeJson = json_encode($messages);
-
-
-  
-?>
