@@ -1,5 +1,22 @@
 <?php
 
+error_reporting(0);
+date_default_timezone_set("Asia/Bangkok");
+$date = date("Y-m-d");
+$time = date("H:i:s");
+$json = file_get_contents('php://input');
+$request = json_decode($json, true);
+$queryText = $request["queryResult"]["queryText"];
+$action = $request["queryResult"]["action"];
+$user_id = $request['originalDetectIntentRequest']['payload']['data']['source']['userId'];
+$myfile = fopen("log$date.txt", "a") or die("Unable to open file!");
+$log = $date . "-" . $time . "\t" . $userId . "\t" . $queryText . "\n" . $c . "\n";
+fwrite($myfile, $log);
+fclose($myfile);
+$input = fopen("log_json.txt", "w") or die("Unable to open file!");
+fwrite($input, $json);
+fclose($input);
+
 require("connect.php");
 $sql = "SELECT * FROM info where pid ='$user_id'";
 $r = mysqli_query($conn, $sql);
