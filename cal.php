@@ -37,7 +37,7 @@ function processMessage($update)
         $LINEDatas['url'] = "https://api.line.me/v2/bot/profile/".$user_id;
         $LINEDatas['token'] = "3/Mp4TwJW1nEWKWe/I6jIHC6SkkSWa739lSdPoMSAlIUxpMB2zRfwow6ZHiBLaBl/87gHDv+ZA/3DHWbi/RErr0zHQnBpn2kTfgU15u3nHEPyV4b+yjEMlPnnLy8peqNibg+m2+CgZGsvvL9eg6YBQdB04t89/1O/w1cDnyilFU=";
         $results = getLINEProfile($LINEDatas);
-        $name = $results['message']['displayName'];
+        $name = $results['message'][1];
         $sql = "SELECT * FROM info where user_id ='$user_id'";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
