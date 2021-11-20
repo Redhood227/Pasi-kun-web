@@ -227,6 +227,44 @@ if (isset($update["queryResult"]["action"])) {
     ));
 }
 
+
+function caltax($netinc)
+{
+    $base=0;
+    if ($netinc <= 150000) {
+        $sum1 = 0;
+    } elseif (300000 >= $netinc) {
+        $first = $netinc - 150000;
+        $sum1 = ($first * 5) / 100;
+        $base = 0.05;
+    } elseif (500000 >= $netinc) {
+        $second = $netinc - 300000;
+        $sum1 = (($second * 10) / 100) + 7500;
+        $base = 0.1;
+    } elseif (750000 >= $netinc) {
+        $third = $netinc - 500000;
+        $sum1 = (($third * 15) / 100) + 27500;
+        $base = 0.15;
+    } elseif (1000000 >= $netinc) {
+        $forth = $netinc - 750000;
+        $sum1 = (($forth * 20) / 100) + 65000;
+        $base = 0.2;
+    } elseif (2000000 >= $netinc) {
+        $fifth = $netinc - 1000000;
+        $sum1 = (($fifth * 25) / 100) + 115000;
+        $base = 0.25;
+    } elseif (5000000 >= $netinc) {
+        $sixth = $netinc - 2000000;
+        $sum1 = (($sixth * 30) / 100) + 365000;
+        $base = 0.3;
+    } elseif ($netinc > 5000000) {
+        $seventh = $netinc - 750000;
+        $sum1 = (($seventh * 35) / 100) + 1265000;
+        $base = 0.35;
+    }
+    return $sum1;
+}
+
 function cal($result)
 {
     //รวมรายได้และหักค่าใช้จ่าย
@@ -261,42 +299,5 @@ function cal($result)
 
     //ประกัน เงินออม การลงทุน
     $first = caltax($netinc);
-    $base = $GLOBALS['base'];
-}
-
-function caltax($netinc)
-{
-    if ($netinc <= 150000) {
-        $sum1 = 0;
-    } elseif (300000 >= $netinc) {
-        $first = $netinc - 150000;
-        $sum1 = ($first * 5) / 100;
-        $base = 0.05;
-    } elseif (500000 >= $netinc) {
-        $second = $netinc - 300000;
-        $sum1 = (($second * 10) / 100) + 7500;
-        $base = 0.1;
-    } elseif (750000 >= $netinc) {
-        $third = $netinc - 500000;
-        $sum1 = (($third * 15) / 100) + 27500;
-        $base = 0.15;
-    } elseif (1000000 >= $netinc) {
-        $forth = $netinc - 750000;
-        $sum1 = (($forth * 20) / 100) + 65000;
-        $base = 0.2;
-    } elseif (2000000 >= $netinc) {
-        $fifth = $netinc - 1000000;
-        $sum1 = (($fifth * 25) / 100) + 115000;
-        $base = 0.25;
-    } elseif (5000000 >= $netinc) {
-        $sixth = $netinc - 2000000;
-        $sum1 = (($sixth * 30) / 100) + 365000;
-        $base = 0.3;
-    } elseif ($netinc > 5000000) {
-        $seventh = $netinc - 750000;
-        $sum1 = (($seventh * 35) / 100) + 1265000;
-        $base = 0.35;
-    }
-
-    return $sum1;
+    $base1 = $GLOBALS["base"];
 }
