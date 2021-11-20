@@ -292,7 +292,7 @@ require 'sendMessage.php';
   $datas['token'] = "3/Mp4TwJW1nEWKWe/I6jIHC6SkkSWa739lSdPoMSAlIUxpMB2zRfwow6ZHiBLaBl/87gHDv+ZA/3DHWbi/RErr0zHQnBpn2kTfgU15u3nHEPyV4b+yjEMlPnnLy8peqNibg+m2+CgZGsvvL9eg6YBQdB04t89/1O/w1cDnyilFU=";
   $messages['to'] = '$user_id';
   $messages['messages'][] = $flexDataJsonDeCode;
-  $encodeJson = json_encode($messages);
+  $encodeJson = json_encode($messages);*/
 
 
   //sentMessage($encodeJson,$datas);
