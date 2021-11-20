@@ -34,7 +34,9 @@ function processMessage($update)
         $request = json_decode($json, true);
         require("connect.php");
         $user_id =  $request['originalDetectIntentRequest']['payload']['data']['source']['userId'];
-        $name = $request['originalDetectIntentRequest']['payload']['data']['source']['displayName'];
+        $profile_json = file_get_contents('https://api.line.me/v2/bot/profile/'.$user_id,false,$context);
+        $profile_array = json_decode($profile_json,true);   
+        $name = $profile_array['displayName'];
         $sql = "SELECT * FROM info where user_id ='$user_id'";
         $result = mysqli_query($conn, $sql);
         $count = mysqli_num_rows($result);
