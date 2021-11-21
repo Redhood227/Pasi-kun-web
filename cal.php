@@ -40,6 +40,7 @@ function caltax($netinc)
 function cal($result)
 {
     $totalDis=0;
+    $paid=0;
     //รวมรายได้และหักค่าใช้จ่าย
     $netinc = $result['salary'] + $result['bonus'];
     if ($result['income'] >= 120000) {
@@ -51,14 +52,15 @@ function cal($result)
     $netinc = $netinc + $result['income'];
     if ($netinc <= 200000) {
         $netinc = $netinc * 50 / 100;
-        $totalDis = $totalDis + ($netinc * 50 / 100);
+        $paid = ($netinc * 50 / 100);
     } else {
         $netinc = $netinc - 100000;
-        $totalDis = $totalDis + 100000;
+        $paid = 100000;
     }
 
     //การลดหย่อนส่วนตัวและครอบครัว
     $netinc = $netinc - 60000;
+    $totalDis = $totalDis + 60000;
     if ($result['mStatus'] == 3) {
         $netinc = $netinc - 60000;
         $totalDis = $totalDis + 60000;
@@ -188,10 +190,10 @@ function cal($result)
     $totalDis = $totalDis + $taxD;
     $sum1 = caltax($netinc);
     if($sum1 > $sum2){
-        return array($sum1,$netinc,$totalDis);
+        return array($sum1,$netinc,$totalDis,$paid);
     }
     else{
-        return array($sum2,$result['income'],0);
+        return array($sum2,$result['income'],0,0);
     }
 }
 
@@ -287,6 +289,11 @@ function processMessage($update)
                                         "contents": [
                                             {
                                                 "type": "text",
+                                                "text": "ค่าใช้จ่าย",
+                                                "contents": []
+                                            },
+                                            {
+                                                "type": "text",
                                                 "text": "ค่าลดหย่อน",
                                                 "contents": []
                                             },
@@ -315,9 +322,16 @@ function processMessage($update)
                                         "contents": [
                                             {
                                                 "type": "text",
-                                                "text": "'.$total[2].' บาท",
+                                                "text": "'.$total[3].' บาท",
                                                 "align": "end",
                                                 "gravity": "top",
+                                                "contents": []
+                                            },
+                                            {
+                                                "type": "text",
+                                                "text": "'.$total[2].' บาท",
+                                                "align": "end",
+                                                "gravity": "center",
                                                 "contents": []
                                             },
                                             {
