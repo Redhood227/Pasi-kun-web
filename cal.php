@@ -1,6 +1,6 @@
 <?php
-class cal{
-    public $netinc,$totalDis;
+global $netinc,$totalDis;
+
 function caltax($netinc)
 {
     $base=0;
@@ -198,6 +198,7 @@ function cal($result)
 
 
 
+require('sendMessage.php');
 //error_reporting(0);
 header('Content-Type: text/html; charset=utf-8');
 date_default_timezone_set("Asia/Bangkok");
@@ -228,7 +229,6 @@ function processMessage($update)
 
         ));
     } else if ($update["queryResult"]["action"] == "school") {
-        require('sendMessage.php');
         $json = file_get_contents('php://input');
         $request = json_decode($json, true);
         require("connect.php");
@@ -424,6 +424,6 @@ if (isset($update["queryResult"]["action"])) {
 
     ));
 }
-}
+
 
 
