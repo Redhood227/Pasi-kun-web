@@ -240,6 +240,10 @@ function processMessage($update)
         if ($count == 1) {
             $r = mysqli_fetch_assoc($result);
             $total = cal($r);
+            $paid = number_format($total[3]);
+            $totalDis = number_format($total[2]);
+            $netinc = number_format($total[1]);
+            $totaltax = number_format($total[0]);
             $flexDataJson = '{
                 "type": "flex",
                 "altText": "Flex Message",
@@ -322,21 +326,21 @@ function processMessage($update)
                                         "contents": [
                                             {
                                                 "type": "text",
-                                                "text": "'.$total[3].' บาท",
-                                                "align": "end",
-                                                "gravity": "top",
-                                                "contents": []
-                                            },
-                                            {
-                                                "type": "text",
-                                                "text": "'.$total[2].' บาท",
+                                                "text": "'.$paid.' บาท",
                                                 "align": "end",
                                                 "gravity": "center",
                                                 "contents": []
                                             },
                                             {
                                                 "type": "text",
-                                                "text": "'.$total[1].' บาท",
+                                                "text": "'.$totalDis.' บาท",
+                                                "align": "end",
+                                                "gravity": "center",
+                                                "contents": []
+                                            },
+                                            {
+                                                "type": "text",
+                                                "text": "'.$netinc.' บาท",
                                                 "align": "end",
                                                 "gravity": "center",
                                                 "margin": "lg",
@@ -348,7 +352,7 @@ function processMessage($update)
                                             },
                                             {
                                                 "type": "text",
-                                                "text": "'.$total[0].' บาท",
+                                                "text": "'.$totaltax.' บาท",
                                                 "weight": "bold",
                                                 "align": "end",
                                                 "gravity": "center",
