@@ -1,4 +1,201 @@
 <?php
+function caltax($netinc)
+{
+    $base=0;
+    if ($netinc <= 150000) {
+        $sum1 = 0;
+    } elseif (300000 >= $netinc) {
+        $first = $netinc - 150000;
+        $sum1 = ($first * 5) / 100;
+        $base = 0.05;
+    } elseif (500000 >= $netinc) {
+        $second = $netinc - 300000;
+        $sum1 = (($second * 10) / 100) + 7500;
+        $base = 0.1;
+    } elseif (750000 >= $netinc) {
+        $third = $netinc - 500000;
+        $sum1 = (($third * 15) / 100) + 27500;
+        $base = 0.15;
+    } elseif (1000000 >= $netinc) {
+        $forth = $netinc - 750000;
+        $sum1 = (($forth * 20) / 100) + 65000;
+        $base = 0.2;
+    } elseif (2000000 >= $netinc) {
+        $fifth = $netinc - 1000000;
+        $sum1 = (($fifth * 25) / 100) + 115000;
+        $base = 0.25;
+    } elseif (5000000 >= $netinc) {
+        $sixth = $netinc - 2000000;
+        $sum1 = (($sixth * 30) / 100) + 365000;
+        $base = 0.3;
+    } elseif ($netinc > 5000000) {
+        $seventh = $netinc - 750000;
+        $sum1 = (($seventh * 35) / 100) + 1265000;
+        $base = 0.35;
+    }
+    return $sum1;
+}
+
+function cal($result)
+{
+    $totalDis=0;
+    //รวมรายได้และหักค่าใช้จ่าย
+    $netinc = $result['salary'] + $result['bonus'];
+    if ($result['income'] >= 120000) {
+        $sum2 = $result['income'] * 0.005;
+        if($sum2<=5000){
+            $sum2 = 0;
+        }
+    }
+    $netinc = $netinc + $result['income'];
+    if ($netinc <= 200000) {
+        $netinc = $netinc * 50 / 100;
+        $totalDis = $totalDis + ($netinc * 50 / 100);
+    } else {
+        $netinc = $netinc - 100000;
+        $totalDis = $totalDis + 100000;
+    }
+
+    //การลดหย่อนส่วนตัวและครอบครัว
+    $netinc = $netinc - 60000;
+    if ($result['mStatus'] == 3) {
+        $netinc = $netinc - 60000;
+        $totalDis = $totalDis + 60000;
+    }
+    if ($result['nChild'] > 0) {
+        $netinc = $netinc - (30000 * $result['nChild']);
+        $totalDis = $totalDis + (30000 * $result['nChild']); 
+    }
+    if ($result['nParent'] > 0) {
+        if ($result['nParent'] < 4) {
+            $netinc = $netinc - (30000 * $result['nChild']);
+            $totalDis = $totalDis + (30000 * $result['nChild']);
+        } else {
+            $netinc = $netinc - (30000 * 4);
+            $totalDis = $totalDis + (30000 * 4);
+        }
+    }
+
+    //เงินออม การลงทุน ประกัน + พวกใช้เงื่อนไขด้วยกัน
+    $total=0;
+    if ($result['rmf']<=(30/100*($result['salary'] + $result['bonus'] +  $result['income']))){
+        $total = $result['rmf'];
+    }
+    else{
+        $total = (30/100*($result['salary'] + $result['bonus'] +  $result['income']));
+    }
+    if($result['nsf']<=13200){
+        $total = $total + $result['nsf'];
+    }
+    else{
+        $total = $total + 13200;
+    }
+    if($result['ssf'] <= (30/100*($result['salary'] + $result['bonus'] +  $result['income'])) && $result['ssf']<=200000){
+        $total = $total + $result['ssf'];
+    }
+    else{
+        if((30/100*($result['salary'] + $result['bonus'] +  $result['income'])) < 200000){
+            $total = $total + (30/100*($result['salary'] + $result['bonus'] +  $result['income']));
+        }
+        else{
+            $total = $total + 200000;
+        }
+    }
+    //ไม่มีเงื่อนไขร่วมกับอันอื่น
+    if($result['ssfx']<=200000){
+        $netinc = $netinc - $result['ssfx'];
+        $totalDis = $totalDis + $result['ssfx'];
+    }
+    else{
+        $netinc = $netinc - 200000;
+        $totalDis = $totalDis + 200000;
+    }
+    if($result['insurance']<=100000){
+        $netinc = $netinc - $result['insurance'];
+        $totalDis = $totalDis + $result['insurance'];
+    }
+    else{
+        $netinc = $netinc - 100000;
+        $totalDis = $totalDis + 100000;
+    }
+
+    if($result['Ainsurance']<=(15/100*($result['salary'] + $result['bonus'] +  $result['income'])) && $result['Ainsurance']<=200000){
+        $total = $total + $result['Ainsurance'];
+    }
+    else{
+        if((15/100*($result['salary'] + $result['bonus'] +  $result['income'])) < 200000){
+            $total = $total + (15/100*($result['salary'] + $result['bonus'] +  $result['income']));
+        }
+        else{
+            $total = $total + 200000;
+        }
+    }
+    if($result['pFund']<=(15/100*($result['salary'] + $result['bonus']))){
+        $total = $total + $result['pFund'];
+    }
+    else{
+        $total = $total + (15/100*($result['salary'] + $result['bonus']));
+    }
+
+    //ประกันสังคม+ดอกเบี้ยกู้บ้าน
+    if($result['socSecur']<=9000){
+        $netinc = $netinc - $result['socSecur'];
+        $totalDis = $totalDis + $result['socSecur'];
+    }
+    else{
+        $netinc =  $netinc - 9000;
+        $totalDis = $totalDis + 9000;
+    }
+    if($result['hLoan']<=100000){
+        $netinc = $netinc - $result['hLoan'];
+        $totalDis = $totalDis + $result['hLoan'];
+    }
+    else{
+        $netinc = $netinc - 100000;
+        $totalDis = $totalDis + 100000;
+    }
+    
+    //พรวกรวมเงื่อนไช
+    if($total <= 500000){
+        $netinc = $netinc -$total;
+        $totalDis = $totalDis + $total;
+    }
+    else{
+        $netinc = $netinc -500000;
+        $totalDis = $totalDis + 500000;
+    }
+
+    //การบริจาค
+    if($result['plubDonation']<=10000){
+        $netinc=$netinc-$result['plubDonation'];
+        $totalDis = $totalDis + $result['plubDonation'];
+    }
+    else{
+        $netinc=$netinc-10000;
+        $totalDis = $totalDis + 10000;
+    }
+
+    $totalD = $result['donation'] + $result['floDonation'] + ($result['eduDonation']*2);
+    $taxD=0;
+    if($totalD<=(10/100)*$netinc){
+        $taxD=$taxD+$totalD;
+    }
+    else{
+        $taxD=$taxD+(10/100)*$netinc;
+    }
+    $netinc=$netinc-$taxD;
+    $totalDis = $totalDis + $taxD;
+    $sum1 = caltax($netinc);
+    if($sum1 > $sum2){
+        return $sum1;
+    }
+    else{
+        return $sum2;
+    }
+}
+
+
+
 require('sendMessage.php');
 //error_reporting(0);
 header('Content-Type: text/html; charset=utf-8');
@@ -39,7 +236,7 @@ function processMessage($update)
         $count = mysqli_num_rows($result);
         if ($count == 1) {
             $r = mysqli_fetch_assoc($result);
-            $netinc = cal($r);
+            $total = cal($r);
             $flexDataJson = '{
                 "type": "flex",
                 "altText": "Flex Message",
@@ -89,12 +286,12 @@ function processMessage($update)
                                         "contents": [
                                             {
                                                 "type": "text",
-                                                "text": "เงินได้ก่อนหักภาษี",
+                                                "text": "ค่าลดหย่อนและค่าใช้จ่าย",
                                                 "contents": []
                                             },
                                             {
                                                 "type": "text",
-                                                "text": "ค่าลดหย่อน",
+                                                "text": "เงินได้สุทธิ",
                                                 "margin": "lg",
                                                 "contents": []
                                             },
@@ -117,14 +314,14 @@ function processMessage($update)
                                         "contents": [
                                             {
                                                 "type": "text",
-                                                "text": "บาท",
+                                                "text": "'.$GLOBALS['totalDis'].' บาท",
                                                 "align": "end",
                                                 "gravity": "top",
                                                 "contents": []
                                             },
                                             {
                                                 "type": "text",
-                                                "text": "บาท",
+                                                "text": "'.$GLOBALS['netinc'].' บาท",
                                                 "align": "end",
                                                 "gravity": "center",
                                                 "margin": "lg",
@@ -136,7 +333,7 @@ function processMessage($update)
                                             },
                                             {
                                                 "type": "text",
-                                                "text": "'.$netinc.' บาท",
+                                                "text": "'.$total.' บาท",
                                                 "weight": "bold",
                                                 "align": "end",
                                                 "gravity": "center",
@@ -227,111 +424,4 @@ if (isset($update["queryResult"]["action"])) {
 }
 
 
-function caltax($netinc)
-{
-    $base=0;
-    if ($netinc <= 150000) {
-        $sum1 = 0;
-    } elseif (300000 >= $netinc) {
-        $first = $netinc - 150000;
-        $sum1 = ($first * 5) / 100;
-        $base = 0.05;
-    } elseif (500000 >= $netinc) {
-        $second = $netinc - 300000;
-        $sum1 = (($second * 10) / 100) + 7500;
-        $base = 0.1;
-    } elseif (750000 >= $netinc) {
-        $third = $netinc - 500000;
-        $sum1 = (($third * 15) / 100) + 27500;
-        $base = 0.15;
-    } elseif (1000000 >= $netinc) {
-        $forth = $netinc - 750000;
-        $sum1 = (($forth * 20) / 100) + 65000;
-        $base = 0.2;
-    } elseif (2000000 >= $netinc) {
-        $fifth = $netinc - 1000000;
-        $sum1 = (($fifth * 25) / 100) + 115000;
-        $base = 0.25;
-    } elseif (5000000 >= $netinc) {
-        $sixth = $netinc - 2000000;
-        $sum1 = (($sixth * 30) / 100) + 365000;
-        $base = 0.3;
-    } elseif ($netinc > 5000000) {
-        $seventh = $netinc - 750000;
-        $sum1 = (($seventh * 35) / 100) + 1265000;
-        $base = 0.35;
-    }
-    return $sum1;
-}
 
-function cal($result)
-{
-    //รวมรายได้และหักค่าใช้จ่าย
-    $netinc = $result['salary'] + $result['bonus'];
-    if ($result['income'] >= 120000) {
-        $sum2 = $result['income'] * 0.005;
-    }
-    $netinc = $netinc + $result['income'];
-    if ($netinc <= 200000) {
-        $netinc = $netinc * 50 / 100;
-    } else {
-        $netinc = $netinc - 100000;
-    }
-
-    //การลดหย่อนส่วนตัวและครอบครัว
-    $netinc = $netinc - 60000;
-    if ($result['mStatus'] == 3) {
-        $netinc = $netinc - 60000;
-    }
-    if ($result['nChild'] > 0) {
-        $netinc = $netinc - (30000 * $result['nChild']);
-    }
-    if ($result['nParent'] > 0) {
-        if ($result['nParent'] < 4) {
-            $netinc = $netinc - (30000 * $result['nChild']);
-        } else {
-            $netinc = $netinc - (30000 * 4);
-        }
-    }
-
-
-
-    //ประกัน เงินออม การลงทุน
-    return caltax($netinc);
-    //$base1 = $GLOBALS["base"];
-}
-
-function getLINEProfile($datas)
-{
-   $datasReturn = [];
-   $curl = curl_init();
-   curl_setopt_array($curl, array(
-     CURLOPT_URL => $datas['url'],
-     CURLOPT_RETURNTRANSFER => true,
-     CURLOPT_ENCODING => "",
-     CURLOPT_MAXREDIRS => 10,
-     CURLOPT_TIMEOUT => 30,
-     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-     CURLOPT_CUSTOMREQUEST => "GET",
-     CURLOPT_HTTPHEADER => array(
-       "Authorization: Bearer ".$datas['token'],
-       "cache-control: no-cache"
-     ),
-   ));
-   $response = curl_exec($curl);
-   $err = curl_error($curl);
-   curl_close($curl);
-   if($err){
-      $datasReturn['result'] = 'E';
-      $datasReturn['message'] = $err;
-   }else{
-      if($response == "{}"){
-          $datasReturn['result'] = 'S';
-          $datasReturn['message'] = 'Success';
-      }else{
-          $datasReturn['result'] = 'E';
-          $datasReturn['message'] = $response;
-      }
-   }
-   return $datasReturn;
-}

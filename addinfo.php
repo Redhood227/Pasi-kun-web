@@ -134,7 +134,7 @@
                                     <input type="number" name="donation" min="0">
                                     <label1>บาท</label1>
                                 
-                                    <label>การศึกษา</label>
+                                    <label>การศึกษา การกีฬา พัฒนาสังคมและโรงพยาบาลรัฐ</label>
                                     <input type="number" name="eduDonation" min="0">
                                     <label1>บาท</label1>
                                
@@ -142,7 +142,7 @@
                                     <input type="number" name="floDonation" min="0">
                                     <label1>บาท</label1>
                                 
-                                    <label>สาธารณประโยชน์</label>
+                                    <label>พรรคการเมือง</label>
                                     <input type="number" name="plubDonation" min="0">
                                     <label1>บาท</label1>
                                 

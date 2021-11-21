@@ -139,7 +139,7 @@
                                     <input type="number" name="edit_donation" min="0" required value="<?php echo $result['donation']?>">
                                     <label1>บาท</label1>
                                 
-                                    <label>การศึกษา</label>
+                                    <label>การศึกษา การกีฬา พัฒนาสังคมและโรงพยาบาลรัฐ</label>
                                     <input type="number" name="edit_eduDonation" min="0" required value="<?php echo $result['eduDonation']?>">
                                     <label1>บาท</label1>
                                
@@ -147,7 +147,7 @@
                                     <input type="number" name="edit_floDonation" min="0" required value="<?php echo $result['floDonation']?>">
                                     <label1>บาท</label1>
                                 
-                                    <label>สาธารณประโยชน์</label>
+                                    <label>พรรคการเมือง</label>
                                     <input type="number" name="edit_plubDonation" min="0" required value="<?php echo $result['plubDonation']?>">
                                     <label1>บาท</label1>
                                 
