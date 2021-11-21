@@ -1,5 +1,4 @@
 <?php
-global $netinc,$totalDis;
 
 function caltax($netinc)
 {
@@ -189,10 +188,10 @@ function cal($result)
     $totalDis = $totalDis + $taxD;
     $sum1 = caltax($netinc);
     if($sum1 > $sum2){
-        return $sum1;
+        return array($sum1,$netinc,$totalDis);
     }
     else{
-        return $sum2;
+        return array($sum2,$result['income'],0);
     }
 }
 
@@ -316,14 +315,14 @@ function processMessage($update)
                                         "contents": [
                                             {
                                                 "type": "text",
-                                                "text": "'.$totalDis.' บาท",
+                                                "text": "'.$total[2].' บาท",
                                                 "align": "end",
                                                 "gravity": "top",
                                                 "contents": []
                                             },
                                             {
                                                 "type": "text",
-                                                "text": "'.$netinc.' บาท",
+                                                "text": "'.$total[1].' บาท",
                                                 "align": "end",
                                                 "gravity": "center",
                                                 "margin": "lg",
@@ -335,7 +334,7 @@ function processMessage($update)
                                             },
                                             {
                                                 "type": "text",
-                                                "text": "'.$total.' บาท",
+                                                "text": "'.$total[0].' บาท",
                                                 "weight": "bold",
                                                 "align": "end",
                                                 "gravity": "center",
