@@ -38,6 +38,7 @@ function caltax($netinc)
 
 function cal($result)
 {
+    global $netinc,$totalDis;
     $totalDis=0;
     //รวมรายได้และหักค่าใช้จ่าย
     $netinc = $result['salary'] + $result['bonus'];
@@ -286,7 +287,7 @@ function processMessage($update)
                                         "contents": [
                                             {
                                                 "type": "text",
-                                                "text": "ค่าลดหย่อนและค่าใช้จ่าย",
+                                                "text": "ค่าลดหย่อน",
                                                 "contents": []
                                             },
                                             {
@@ -314,14 +315,14 @@ function processMessage($update)
                                         "contents": [
                                             {
                                                 "type": "text",
-                                                "text": "'.$GLOBALS['totalDis'].' บาท",
+                                                "text": "'.$totalDis.' บาท",
                                                 "align": "end",
                                                 "gravity": "top",
                                                 "contents": []
                                             },
                                             {
                                                 "type": "text",
-                                                "text": "'.$GLOBALS['netinc'].' บาท",
+                                                "text": "'.$netinc.' บาท",
                                                 "align": "end",
                                                 "gravity": "center",
                                                 "margin": "lg",
