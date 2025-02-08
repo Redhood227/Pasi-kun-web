@@ -1,2 +1,2 @@
 # Pasi-kun-web
-Web App for Line Chat bot
+Simple tax calculator Web App for link with Line Chat bot
